@@ -208,27 +208,31 @@ class HomeScreen extends StatelessWidget {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             'Most Popular',
                             style: TextStyle(color: kWhiteColor, fontSize: 20),
                           ),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'See All',
-                              style: TextStyle(
-                                color: kWhiteColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
+                          // TextButton(
+                          //   onPressed: () {},
+                          //   child: const Text(
+                          //     'See All',
+                          //     style: TextStyle(
+                          //       color: kWhiteColor,
+                          //       fontSize: 16,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       SizedBox(
                         height: 0.03 * screenHeight,
                       ),
-                      const CategorySelectionSingleItem(),
+                      // const CategorySelectionSingleItem(),
+                      const ProductListTile(),
+                      SizedBox(
+                        height: 0.05 * screenHeight,
+                      ),
                     ],
                   ),
                 ),
@@ -369,42 +373,114 @@ class CategoryIcons extends StatelessWidget {
           Text(
             iconName,
             style: const TextStyle(color: kWhiteColor, fontSize: 16),
-          )
+          ),
         ],
       ),
     );
   }
 }
 
-class CategorySelectionTabItems extends StatelessWidget {
-  const CategorySelectionTabItems({super.key});
+// class CategorySelectionTabItems extends StatelessWidget {
+//   const CategorySelectionTabItems({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final screenHeight = MediaQuery.of(context).size.height;
+//     final screenWidth = MediaQuery.of(context).size.width;
+
+//     return Container();
+//   }
+// }
+
+// class CategorySelectionSingleItem extends StatelessWidget {
+//   const CategorySelectionSingleItem({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final screenHeight = MediaQuery.of(context).size.height;
+//     final screenWidth = MediaQuery.of(context).size.width;
+
+//     return Container(
+//       width: 0.05 * screenWidth,
+//       height: 0.001 * screenHeight,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(20),
+//       ),
+//       child: const Text(
+//         'Sofa',
+//         style: TextStyle(color: kWhiteColor, fontSize: 14),
+//       ),
+//     );
+//   }
+// }
+
+class ProductListTile extends StatelessWidget {
+  const ProductListTile({super.key});
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Container();
-  }
-}
-
-class CategorySelectionSingleItem extends StatelessWidget {
-  const CategorySelectionSingleItem({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return Container(
-      width: 0.05 * screenWidth,
-      height: 0.001 * screenHeight,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: const Text(
-        'Sofa',
-        style: TextStyle(color: kWhiteColor, fontSize: 14),
+    return SizedBox(
+      width: 0.4 * screenWidth,
+      height: 0.24 * screenHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: 0.4 * screenWidth,
+                height: 0.15 * screenHeight,
+                decoration: BoxDecoration(
+                  color: kListTileColor,
+                  image: const DecorationImage(
+                    fit: BoxFit.fitHeight,
+                    image: NetworkImage(
+                      'https://www.ulcdn.net/images/products/162605/slide/666x363/Carven_Lounge_Chair_Grey_1.jpg?1514963528',
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.favorite_border_outlined,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 0.02 * screenHeight,
+          ),
+          const Text(
+            'Form Padded Chair',
+            style: TextStyle(
+                color: kWhiteColor,
+                fontSize: 18,
+                overflow: TextOverflow.ellipsis),
+          ),
+          SizedBox(
+            height: 0.01 * screenHeight,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Text(
+                '₹ 9,000',
+                style: TextStyle(
+                  color: kLightWhiteColor,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
