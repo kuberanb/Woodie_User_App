@@ -212,6 +212,7 @@ class AccountSetup extends StatelessWidget {
             SizedBox(
               height: 0.01 * screenHeight,
             ),
+            
             GestureDetector(
               onTap: () {},
               child: Padding(

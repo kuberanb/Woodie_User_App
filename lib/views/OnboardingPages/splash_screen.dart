@@ -6,6 +6,8 @@ import 'package:woodie/views/LetsIn(login,signin,signup)/LetYouIn_screen.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/createyourAccount.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/loginyourAccount.dart';
 import 'package:woodie/views/OnboardingPages/WelcomePage.dart';
+import 'package:woodie/views/forgot_reset_password/forgot_password_screen.dart';
+import 'package:woodie/views/homeAndActionMenu/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -70,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(milliseconds: 1500));
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: ((context) => const AccountSetup()),
+        builder: ((context) => const HomeScreen()),
       ),
     );
   }
