@@ -236,23 +236,20 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SingleChildScrollView(
-                  child: SizedBox( 
-                    width: double.infinity,
-                    height: screenHeight,
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 0.02 * screenHeight,
-                      ),
-                      itemBuilder: ((context, index) =>
-                          const ProductListTile()),
-                      itemCount: 6,
-                    ),
+                GridView.builder(
+                  physics:
+                      const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                  shrinkWrap: true, // You won't see infinite size error
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 0.02 * screenHeight,
                   ),
-                ), 
-
-
+                  itemBuilder: ((context, index) => const ProductListTile()),
+                  itemCount: 6,
+                ),
+                SizedBox(
+                  height: 0.03 * screenHeight,
+                ),
               ],
             ),
           ),
@@ -440,10 +437,10 @@ class ProductListTile extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return InkWell(
-      onTap: (){},
+      onTap: () {},
       child: SizedBox(
         width: 0.4 * screenWidth,
-        height: 0.24 * screenHeight, 
+        height: 0.24 * screenHeight,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
