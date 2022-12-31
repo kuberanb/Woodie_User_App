@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/homeAndActionMenu/search_screen.dart';
+import 'package:woodie/views/homeAndActionMenu/special_offers_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -135,7 +136,14 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(color: kWhiteColor, fontSize: 20),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: ((context) =>
+                                      const SpecialOffersScreen()),
+                                ),
+                              );
+                            },
                             child: const Text(
                               'See All',
                               style: TextStyle(

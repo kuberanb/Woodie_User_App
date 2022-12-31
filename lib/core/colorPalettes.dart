@@ -27,3 +27,6 @@ const kPrefixIconColor = Color.fromARGB(160, 255, 255, 255);
 const kLightWhiteColor = Color.fromARGB(255, 214, 214, 214);
 
 const kcategoryIconBorderColor = Color.fromARGB(255, 41, 40, 40);  
+
+const kExtraLightWhiteColor = Color.fromARGB(235, 179, 178, 178);  
+ 
