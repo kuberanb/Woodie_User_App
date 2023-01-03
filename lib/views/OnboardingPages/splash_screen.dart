@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/AccountSetup/Account_SetUp_Screen.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/My_cart.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/add_new_address_screen.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/checkout_screen.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/payments_methods_screen.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/shipping_address_screen.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/LetYouIn_screen.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/createyourAccount.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/loginyourAccount.dart';
@@ -78,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(milliseconds: 1500));
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: ((context) => const MyCart()),
+        builder: ((context) => const AddNewAddressScreen()),
       ),
     );
   }
