@@ -13,6 +13,25 @@ class SearchScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final controller = Get.put(SearchScreenController());
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kBackgroundColor,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: kWhiteColor,
+          ),
+        ),
+        title: const Text(
+          'Search Screen',
+          style: TextStyle(
+            color: kWhiteColor,
+            fontSize: 20,
+          ),
+        ),
+      ),
       backgroundColor: kBackgroundColor,
       body: SingleChildScrollView(
         child: SafeArea(

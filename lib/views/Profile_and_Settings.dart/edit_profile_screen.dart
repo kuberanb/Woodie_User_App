@@ -1,73 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:woodie/controllers/accountSetupController.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/views/AccountSetup/account_setup_Screen.dart';
 
-class AccountSetup extends StatelessWidget {
-  const AccountSetup({super.key});
+class EditProfile extends StatelessWidget {
+  const EditProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    final controller = Get.put(
-      AccountSetUpController(),
-    );
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        backgroundColor: kBackgroundColor,
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(
+            color: kWhiteColor,
+            fontSize: 22,
+          ),
+        ),
         leading: IconButton(
           onPressed: () {},
           icon: const Icon(
             Icons.arrow_back,
-            color: kWhiteColor,
           ),
-        ),
-        backgroundColor: kBackgroundColor,
-        title: const Text(
-          'Fill Your Profile',
-          style: TextStyle(color: kWhiteColor, fontSize: 22),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 0.01 * screenHeight,
-            ),
-            Stack(
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    radius: 0.1 * screenHeight,
-                    backgroundImage:
-                        const AssetImage('assets/images/human_face_avatar.png'),
-                  ),
-                ),
-                Positioned(
-                  top: 85,
-                  right: 0,
-                  left: 70,
-                  bottom: 0,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.edit_outlined,
-                      color: kBlackColor,
-                      size: 60,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 0.01 * screenHeight,
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: controller.nameController,
+                //  controller: controller.nameController,
                 style: const TextStyle(color: kWhiteColor),
                 decoration: InputDecoration(
                   fillColor: kListTileColor,
@@ -101,7 +67,7 @@ class AccountSetup extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: controller.emailController,
+                //  controller: controller.emailController,
                 style: const TextStyle(color: kWhiteColor),
                 decoration: InputDecoration(
                   fillColor: kListTileColor,
@@ -135,7 +101,7 @@ class AccountSetup extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: controller.dateOfBirthController,
+                //  controller: controller.dateOfBirthController,
                 style: const TextStyle(color: kWhiteColor),
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
@@ -176,7 +142,7 @@ class AccountSetup extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                controller: controller.phoneNumberController,
+                //  controller: controller.phoneNumberController,
                 style: const TextStyle(color: kWhiteColor),
                 decoration: InputDecoration(
                   fillColor: kListTileColor,
@@ -207,10 +173,7 @@ class AccountSetup extends StatelessWidget {
             SizedBox(
               height: 0.01 * screenHeight,
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8.0, bottom: 8),
-              child: GenderDropDown(),
-            ),
+            const GenderDropDown(),
             SizedBox(
               height: 0.01 * screenHeight,
             ),
@@ -230,7 +193,7 @@ class AccountSetup extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
-                        'Submit',
+                        'Update',
                         style: TextStyle(
                             color: kBlackColor,
                             fontWeight: FontWeight.bold,
@@ -244,61 +207,6 @@ class AccountSetup extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class GenderDropDown extends StatelessWidget {
-  const GenderDropDown({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // final controller = Get.put(AccountSetUpController());
-    // final controller = Get.put(AccountSetUpController());
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-    return GetBuilder<AccountSetUpController>(
-      //  init: AccountSetUpController(),
-      builder: (controller) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              // color: Colors.white,
-              width: double.infinity,
-              height: 57,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: kListTileColor),
-              child: DropdownButton(
-                dropdownColor: Colors.black,
-                // isExpanded: true,
-                //  borderRadius: BorderRadius.circular(20),
-                underline: Container(
-                    //height: 1,
-                    // color: kWhiteColor,
-                    ),
-                // hint: const Text(
-                //   'Select Item',
-                //   style: TextStyle(color: kWhiteColor, fontSize: 20),
-                // ),
-                // disabledHint: const Text('Select Item',style: TextStyle(color: kBlackColor,fontSize: 22),),
-
-                style: const TextStyle(color: kWhiteColor, fontSize: 20),
-                value: controller.selectedValue,
-                items: controller.genderItems,
-                onChanged: ((value) {
-                  //   setState(() {
-                  controller.selectedValue = value;
-                  controller.update();
-                  //  });
-                }),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
