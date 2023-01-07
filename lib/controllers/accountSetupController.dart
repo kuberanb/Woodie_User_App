@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,15 +12,15 @@ class AccountSetUpController extends GetxController {
   String? selectedValue = '     Male';
 
   final genderItems = [
-  const DropdownMenuItem(
+    const DropdownMenuItem(
       value: '     Male',
       child: Text('     Male'),
     ),
     const DropdownMenuItem(
-      value: '     Female', 
+      value: '     Female',
       child: Text('     Female'),
     ),
-    const DropdownMenuItem( 
+    const DropdownMenuItem(
       value: '     Transgender',
       child: Text('     Transgender'),
     ),

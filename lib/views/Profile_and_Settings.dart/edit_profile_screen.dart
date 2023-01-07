@@ -21,7 +21,9 @@ class EditProfile extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           icon: const Icon(
             Icons.arrow_back,
           ),

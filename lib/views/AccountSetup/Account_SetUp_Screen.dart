@@ -258,10 +258,13 @@ class GenderDropDown extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return GetBuilder<AccountSetUpController>(
-      //  init: AccountSetUpController(),
+        init: AccountSetUpController(),
       builder: (controller) {
         return Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          padding: const EdgeInsets.only(
+            left: 8.0,
+            right: 8,
+          ),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Container(
@@ -270,7 +273,7 @@ class GenderDropDown extends StatelessWidget {
               height: 57,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: kListTileColor),
+                  color: kListTileColor,),
               child: DropdownButton(
                 dropdownColor: Colors.black,
                 // isExpanded: true,

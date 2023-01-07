@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/AccountSetup/account_setup_Screen.dart';

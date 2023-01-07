@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/homeAndActionMenu/search_screen.dart';
+import 'package:woodie/views/homeAndActionMenu/selected_category_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/special_offers_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -164,7 +165,11 @@ class HomeScreen extends StatelessWidget {
                           CategoryIcons(
                             iconName: 'Sofa',
                             iconUrl: 'assets/images/sofa_icon.png',
-                            pressedFunc: () {},
+                            pressedFunc: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) =>
+                                      const SelectedCategoryScreen())));
+                            },
                           ),
                           CategoryIcons(
                             iconName: 'Chair',
@@ -365,7 +370,7 @@ class CategoryIcons extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
-      onTap: () {},
+      onTap: pressedFunc,
       child: Column(
         children: [
           Container(

@@ -7,6 +7,7 @@ class MyCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -19,12 +20,105 @@ class MyCart extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.separated(
-        itemBuilder: ((context, index) => const MyCartSingleItem()),
-        separatorBuilder: ((context, index) => SizedBox(
-              height: 0.02 * screenHeight,
-            )), 
-        itemCount: 25, 
+      body: SizedBox(
+        width: double.infinity,
+        height: 0.9 * screenHeight,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [  
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: ((context, index) => const MyCartSingleItem()),
+                separatorBuilder: ((context, index) => SizedBox(
+                      height: 0.02 * screenHeight,
+                    )),
+                itemCount: 10,
+              ),
+             // const   Spacer(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 0.142 * screenHeight,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: kListTileColor,
+                    border: Border.all(
+                      color: kLightWhiteColor,
+                      width: 1,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 0.02 * screenWidth,
+                      right: 0.02 * screenWidth,
+                      top: 0.02 * screenHeight,
+                      bottom: 0.02 * screenHeight,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            const Text(
+                              'Total Price',
+                              style: TextStyle(
+                                color: kspecialGrey,
+                                fontSize: 14,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 0.01 * screenHeight,
+                            ),
+                            const Text(
+                              '₹ 50000',
+                              style:
+                                  TextStyle(color: kWhiteColor, fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  top: 0.02 * screenHeight, 
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kWhiteColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  width: 0.2 * screenWidth,
+                                  height: 0.05 * screenHeight,
+                                  child: const Center(
+                                    child: Text(
+                                      'CheckOut',
+                                      style: TextStyle(
+                                        color: kBlackColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -42,7 +136,7 @@ class MyCartSingleItem extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(
           right: 0.025 * screenWidth,
-          left: 0.025 * screenWidth, 
+          left: 0.025 * screenWidth,
         ),
         child: Container(
           decoration: BoxDecoration(

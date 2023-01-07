@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/functions/MiscellaneousFunctions.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/shipping_address_screen.dart';
+import 'package:woodie/views/Profile_and_Settings.dart/edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -100,7 +101,13 @@ class ProfileScreen extends StatelessWidget {
               ),
               ProfileScreenListTile(
                 title: 'Edit Profile',
-                onPressFunction: () {},
+                onPressFunction: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: ((context) => const EditProfile()),
+                    ),
+                  );
+                },
                 iconValue: Icons.man,
               ),
               SizedBox(
