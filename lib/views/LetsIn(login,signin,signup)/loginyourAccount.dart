@@ -151,7 +151,7 @@ class LoginPage extends StatelessWidget {
                   )
                 ],
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding:
@@ -184,7 +184,7 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {},
                     child: const Text(
                       'Forgot the Password?',
-                      style: TextStyle(color: kWhiteColor, fontSize: 14), 
+                      style: TextStyle(color: kWhiteColor, fontSize: 14),
                     ),
                   ),
                 ],
@@ -228,7 +228,7 @@ class LoginPage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 16.0, right: 16, left: 16),
                 child: Column(
                   children: [
-                    GestureDetector(
+                    InkWell(
                       onTap: () {},
                       child: Container(
                         decoration: BoxDecoration(
