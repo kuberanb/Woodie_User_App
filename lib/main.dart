@@ -9,6 +9,9 @@ Future main() async {
   runApp(const MyApp());
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+final messengerKey = GlobalKey<ScaffoldMessengerState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -16,6 +19,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: messengerKey,
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(primaryColor: Colors.black),

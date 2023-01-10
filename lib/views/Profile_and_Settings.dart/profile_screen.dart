@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:woodie/controllers/Authentication/loginController.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/functions/MiscellaneousFunctions.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/shipping_address_screen.dart';
@@ -11,6 +14,9 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final user = FirebaseAuth.instance.currentUser;
+    final loginController = Get.put(LoginController());
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -79,10 +85,10 @@ class ProfileScreen extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'Andrew Ansley',
-                    style: TextStyle(
+                    user!.email ?? 'Unknown Email',
+                    style: const TextStyle(
                       color: kWhiteColor,
                       fontSize: 20,
                     ),
@@ -148,6 +154,9 @@ class ProfileScreen extends StatelessWidget {
                 onPressFunction: () {
                   showLogoutBottonSheet(
                     context: context,
+                    logOutFunction: () {
+                      loginController.signOut(context);
+                    },
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,
                   );

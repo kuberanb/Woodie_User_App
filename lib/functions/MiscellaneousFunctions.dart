@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/main.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/My_cart.dart';
 
 showCartToCheckoutBottomSheet(
@@ -201,6 +202,7 @@ showRemoveFromCartBottomSheet(
 showLogoutBottonSheet(
     {required BuildContext context,
     required screenHeight,
+    required VoidCallback logOutFunction,
     required screenWidth}) {
   return showModalBottomSheet(
     backgroundColor: Colors.transparent,
@@ -295,7 +297,7 @@ showLogoutBottonSheet(
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: logOutFunction,
                       child: Container(
                         width: 0.4 * screenWidth,
                         height: 0.06 * screenHeight,
@@ -324,4 +326,23 @@ showLogoutBottonSheet(
           ),
         )),
   );
+}
+
+errorSnackBar(String? text, BuildContext context) {
+  if (text == null) return;
+
+  final snackBar = SnackBar(
+    backgroundColor: kListTileColor,
+    content: Text(
+      text,
+      style: const TextStyle(
+        color: kWhiteColor,
+        fontSize: 18,
+      ),
+    ),
+  );
+  //ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  messengerKey.currentState!
+    ..removeCurrentSnackBar()
+    ..showSnackBar(snackBar);
 }

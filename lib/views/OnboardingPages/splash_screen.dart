@@ -11,6 +11,7 @@ import 'package:woodie/views/LetsIn(login,signin,signup)/LetYouIn_screen.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/createyourAccount.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/loginyourAccount.dart';
 import 'package:woodie/views/OnboardingPages/WelcomePage.dart';
+import 'package:woodie/views/OnboardingPages/main_screen.dart';
 import 'package:woodie/views/Orders/my_orders_screen.dart';
 import 'package:woodie/views/Profile_and_Settings.dart/edit_profile_screen.dart';
 import 'package:woodie/views/Profile_and_Settings.dart/profile_screen.dart';
@@ -85,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(milliseconds: 1500));
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: ((context) => const NavigationScreen()),
+        builder: ((context) => const MainScreen()),
       ),
     );
   }
