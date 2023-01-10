@@ -28,12 +28,14 @@ class LoginController extends GetxController {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      errorSnackBar('Sign In Sucessful', context);
     } on FirebaseAuthException catch (e) {
       print(e);
       errorSnackBar(e.toString(), context);
     }
+    Navigator.of(context).pop();
 
-    navigatorKey.currentState!.popUntil((route) => false);
+    // navigatorKey.currentState!.popUntil((route) => false);
   }
 
   Future signOut(BuildContext context) async {
@@ -50,12 +52,14 @@ class LoginController extends GetxController {
 
     try {
       await FirebaseAuth.instance.signOut();
-      errorSnackBar('Logout Sucessfull', context);
+      errorSnackBar('Logout Sucessful', context);
     } on FirebaseAuthException catch (e) {
       print(e);
       errorSnackBar(e.message.toString(), context);
     }
 
-    navigatorKey.currentState!.popUntil((route) => false);
+    // navigatorKey.currentState!.popUntil((route) => false);
+     Navigator.of(context).pop();
+     Navigator.of(context).pop();
   }
 }

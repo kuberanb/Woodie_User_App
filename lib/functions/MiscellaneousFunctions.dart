@@ -332,7 +332,14 @@ errorSnackBar(String? text, BuildContext context) {
   if (text == null) return;
 
   final snackBar = SnackBar(
-    backgroundColor: kListTileColor,
+   // backgroundColor: kListTileColor,
+   backgroundColor: kRedColor,
+   margin: const EdgeInsets.all(20),
+  behavior: SnackBarBehavior.floating,
+
+    duration: const Duration(
+      seconds: 2,
+    ),
     content: Text(
       text,
       style: const TextStyle(
@@ -341,8 +348,9 @@ errorSnackBar(String? text, BuildContext context) {
       ),
     ),
   );
-  //ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  messengerKey.currentState!
-    ..removeCurrentSnackBar()
-    ..showSnackBar(snackBar);
+
+  //  messengerKey.currentState!
+  //   ..removeCurrentSnackBar()
+  //   ..showSnackBar(snackBar);
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

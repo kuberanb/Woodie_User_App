@@ -287,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         InkWell(
                           onTap: () {
-                            googleController.googleLogin();
+                            googleController.googleLogin(context);
                           },
                           child: Container(
                             decoration: BoxDecoration(

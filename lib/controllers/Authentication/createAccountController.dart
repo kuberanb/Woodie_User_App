@@ -30,13 +30,16 @@ class CreateAccountController extends GetxController {
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text.trim(), password: passwordController.text.trim());
-    //  errorSnackBar('Created Username and Password', context);
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      errorSnackBar('Created Username and Password', context);
     } on FirebaseAuthException catch (e) {
       print(e);
       errorSnackBar(e.message.toString(), context);
     }
 
-    navigatorKey.currentState!.popUntil((route) => false);
+    // navigatorKey.currentState!.popUntil((route) => false);
+    Navigator.of(context).pop();
   }
 }

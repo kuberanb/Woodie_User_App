@@ -5,6 +5,7 @@ import 'package:woodie/controllers/Authentication/loginController.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/functions/MiscellaneousFunctions.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/shipping_address_screen.dart';
+import 'package:woodie/views/OnboardingPages/main_screen.dart';
 import 'package:woodie/views/Profile_and_Settings.dart/edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -154,8 +155,9 @@ class ProfileScreen extends StatelessWidget {
                 onPressFunction: () {
                   showLogoutBottonSheet(
                     context: context,
-                    logOutFunction: () {
+                    logOutFunction: () { 
                       loginController.signOut(context);
+                      
                     },
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,

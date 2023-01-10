@@ -266,7 +266,7 @@ class _CreateYourAccountState extends State<CreateYourAccount> {
                       children: [
                         InkWell(
                           onTap: () {
-                            googleController.googleLogin();
+                            googleController.googleLogin(context);
                           },
                           child: Container(
                             decoration: BoxDecoration(
