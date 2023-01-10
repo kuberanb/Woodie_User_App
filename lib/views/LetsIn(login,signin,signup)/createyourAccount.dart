@@ -5,6 +5,8 @@ import 'package:woodie/controllers/Authentication/createAccountController.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/loginyourAccount.dart';
 
+import '../../controllers/Authentication/googleSignInController.dart';
+
 class CreateYourAccount extends StatefulWidget {
   final VoidCallback onClickedSignIn;
   const CreateYourAccount({super.key, required this.onClickedSignIn});
@@ -21,6 +23,7 @@ class _CreateYourAccountState extends State<CreateYourAccount> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final controller = Get.put(CreateAccountController());
+    final googleController = Get.put(GoogleSignInController());
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -116,10 +119,12 @@ class _CreateYourAccountState extends State<CreateYourAccount> {
                       style: const TextStyle(color: kWhiteColor),
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
-                          onPressed: () {controller.passwordController.clear();},
+                          onPressed: () {
+                            controller.passwordController.clear();
+                          },
                           icon: const Icon(
                             Icons.clear,
-                            color: kPrefixIconColor, 
+                            color: kPrefixIconColor,
                             size: 22,
                           ),
                         ),
@@ -260,7 +265,9 @@ class _CreateYourAccountState extends State<CreateYourAccount> {
                     child: Column(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            googleController.googleLogin();
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               color: kListTileColor,

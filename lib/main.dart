@@ -4,7 +4,7 @@ import 'package:woodie/views/OnboardingPages/splash_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   runApp(const MyApp());
 }

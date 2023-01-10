@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:woodie/controllers/Authentication/googleSignInController.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/LetsIn(login,signin,signup)/createyourAccount.dart';
 import 'package:woodie/views/forgot_reset_password/forgot_password_screen.dart';
@@ -23,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final controller = Get.put(LoginController());
+    final googleController = Get.put(GoogleSignInController());
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -284,7 +286,9 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            googleController.googleLogin();
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               color: kListTileColor,
