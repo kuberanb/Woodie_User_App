@@ -66,7 +66,7 @@ class _CreateYourAccountState extends State<CreateYourAccount> {
                     ),
                   ),
                   SizedBox(
-                    height: 0.001 * screenHeight,
+                    height: 0.001 * screenHeight, 
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -77,6 +77,16 @@ class _CreateYourAccountState extends State<CreateYourAccount> {
                         fillColor: kListTileColor,
                         filled: true,
                         hintText: 'Email',
+                        suffixIcon: IconButton( 
+                          onPressed: () {
+                            controller.emailController.clear();
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            color: kPrefixIconColor,
+                            size: 22,
+                          ),
+                        ),
                         prefixIcon: const Icon(
                           Icons.email,
                           color: kPrefixIconColor,
@@ -156,6 +166,117 @@ class _CreateYourAccountState extends State<CreateYourAccount> {
                           return 'Enter Password';
                         } else if (value.length <= 7) {
                           return 'Enter Password Length greater than 7 letters';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 0.01 * screenHeight,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                     // obscureText: true,
+                      controller: controller.fullNameController,
+                      style: const TextStyle(color: kWhiteColor),
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            controller.fullNameController.clear();
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            color: kPrefixIconColor,
+                            size: 22,
+                          ),
+                        ),
+                        fillColor: kListTileColor,
+                        filled: true,
+                        hintText: 'Full Name',
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: kPrefixIconColor,
+                        ),
+                        hintStyle: const TextStyle(color: kPrefixIconColor),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(
+                            color: kBlackColor,
+                            width: 2.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(
+                            color: kBlackColor,
+                            width: 2.0,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter Name';
+                        } else if (value.length <= 1) {
+                          return 'Enter name Length greater than 1 letters';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 0.01 * screenHeight,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                     // obscureText: true,
+                      controller: controller.phoneNumberController,
+                      style: const TextStyle(color: kWhiteColor),
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            controller.phoneNumberController.clear();
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            color: kPrefixIconColor,
+                            size: 22,
+                          ),
+                        ),
+                        fillColor: kListTileColor,
+                        filled: true,
+                        hintText: 'Phone Number',
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: kPrefixIconColor,
+                        ),
+                        hintStyle: const TextStyle(color: kPrefixIconColor),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(
+                            color: kBlackColor,
+                            width: 2.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: const BorderSide(
+                            color: kBlackColor,
+                            width: 2.0,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+                        if (value == null || value.isEmpty) {
+                          return 'Enter Phone Number';
+                        } else if (value.length <= 9) {
+                          return 'number length less than 10 numbers or alphabets are present';
+                        } else if (phoneRegExp.hasMatch(value)) {
+                          return null;
                         } else {
                           return null;
                         }

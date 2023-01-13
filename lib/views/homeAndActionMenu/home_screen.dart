@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/homeAndActionMenu/search_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/selected_category_screen.dart';
+import 'package:woodie/views/homeAndActionMenu/selected_product_fullscreen.dart';
 import 'package:woodie/views/homeAndActionMenu/special_offers_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -450,7 +451,9 @@ class ProductListTile extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: ((context) => const SelectedProductFullScreen())));
+      },
       child: SizedBox(
         width: 0.4 * screenWidth,
         height: 0.24 * screenHeight,

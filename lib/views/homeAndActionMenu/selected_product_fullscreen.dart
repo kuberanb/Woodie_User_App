@@ -17,7 +17,9 @@ class SelectedProductFullScreen extends StatelessWidget {
         ),
         backgroundColor: kBackgroundColor,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           icon: const Icon(
             Icons.arrow_back,
             color: kWhiteColor,
