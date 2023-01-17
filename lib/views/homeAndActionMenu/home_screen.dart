@@ -98,11 +98,11 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: ((context) => const SearchScreen()),
-                          //   ),
-                          // );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: ((context) => const SearchScreen()),
+                            ),
+                          );
                         },
                         child: Container(
                           // color: kListTileColor,
@@ -121,12 +121,12 @@ class HomeScreen extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //     builder: ((context) =>
-                                  //         const SearchScreen()),
-                                  //   ),
-                                  // );
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: ((context) =>
+                                          const SearchScreen()),
+                                    ),
+                                  );
                                 },
                                 icon: const Icon(
                                   Icons.search,
