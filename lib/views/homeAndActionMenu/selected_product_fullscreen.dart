@@ -2,7 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 
 class SelectedProductFullScreen extends StatelessWidget {
-  const SelectedProductFullScreen({super.key});
+  String productName;
+  int productPrice;
+  String productDescription;
+  List<dynamic> productImageList;
+  SelectedProductFullScreen({
+    super.key,
+    required this.productName,
+    required this.productPrice,
+    required this.productDescription,
+    required this.productImageList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +21,13 @@ class SelectedProductFullScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Double Bed',
-          style: TextStyle(color: kWhiteColor),
+        title: Text(
+          // 'Double Bed',
+          productName,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: kWhiteColor,
+          ),
         ),
         backgroundColor: kBackgroundColor,
         leading: IconButton(
@@ -36,40 +50,54 @@ class SelectedProductFullScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const ProductFullScreenImages(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Century Double Bed',
-                    style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: kWhiteColor,
-                      fontSize: 22,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite_outline_outlined,
-                      color: kWhiteColor,
-                    ),
-                  ),
-                ],
+              ProductFullScreenImages(
+                imageUrlList: productImageList,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Icon(
-                    Icons.star_rounded,
-                    color: kLightGreyColor,
+              SizedBox(
+                width: double.infinity,
+                height: 0.03 * screenHeight,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        // 'Century Double Bed',
+                        productName,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          color: kWhiteColor,
+                          fontSize: 22,
+                        ),
+                      ),
+                      // IconButton(
+                      //   onPressed: () {},
+                      //   icon: const Icon(
+                      //     Icons.favorite_outline_outlined,
+                      //     color: kWhiteColor,
+                      //   ),
+                      // ),
+                    ],
                   ),
-                  Text(
-                    '4.8 (6,578 review)',
-                    style: TextStyle(color: kLightWhiteColor),
-                  )
-                ],
+                ),
               ),
+              SizedBox(
+                height: 0.02 * screenHeight,
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: const [
+              //     Icon(
+              //       Icons.star_rounded,
+              //       color: kLightGreyColor,
+              //     ),
+              //     Text(
+              //       '4.8 (6,578 review)',
+              //       style: TextStyle(color: kLightWhiteColor),
+              //     )
+              //   ],
+              // ),
               const Divider(
                 thickness: 1,
                 color: kLightGreyColor,
@@ -89,12 +117,14 @@ class SelectedProductFullScreen extends StatelessWidget {
               SizedBox(
                 height: 0.01 * screenHeight,
               ),
-              const Text(
-                '''Lorem ipsum dolor sit amet.consectur adipiscing elit, sed
-do eiusmod tempor inciddunt ut labore at bkk from
-hbjdjno ldm asjkhas nlnsal jnlnsal jlnoiw anoianoa  
-andoiawa jkhksajnsa ,nndlan kbdskjbs jnlnasodn kbjk   mn jk l''',
-                style: TextStyle(
+              Text(
+//                 '''Lorem ipsum dolor sit amet.consectur adipiscing elit, sed
+// do eiusmod tempor inciddunt ut labore at bkk from
+// hbjdjno ldm asjkhas nlnsal jnlnsal jlnoiw anoianoa
+// andoiawa jkhksajnsa ,nndlan kbdskjbs jnlnasodn kbjk   mn jk l'''
+
+                productDescription,
+                style: const TextStyle(
                   color: kExtraLightWhiteColor,
                   fontSize: 14,
                   overflow: TextOverflow.ellipsis,
@@ -134,7 +164,7 @@ andoiawa jkhksajnsa ,nndlan kbdskjbs jnlnasodn kbjk   mn jk l''',
                           ),
                         ),
                         const Text(
-                          '2',
+                          '0',
                           style: TextStyle(
                             color: kWhiteColor,
                             fontSize: 18,
@@ -178,9 +208,10 @@ andoiawa jkhksajnsa ,nndlan kbdskjbs jnlnasodn kbjk   mn jk l''',
                       SizedBox(
                         height: 0.005 * screenHeight,
                       ),
-                      const Text(
-                        '₹ 25,000',
-                        style: TextStyle(
+                      Text(
+                        // '₹ 25,000',
+                        productPrice.toString(),
+                        style: const TextStyle(
                           color: kWhiteColor,
                           fontSize: 18,
                         ),
@@ -223,7 +254,8 @@ andoiawa jkhksajnsa ,nndlan kbdskjbs jnlnasodn kbjk   mn jk l''',
 }
 
 class ProductFullScreenImages extends StatelessWidget {
-  const ProductFullScreenImages({super.key});
+  List<dynamic> imageUrlList;
+  ProductFullScreenImages({super.key, required this.imageUrlList});
 
   @override
   Widget build(BuildContext context) {
@@ -234,15 +266,18 @@ class ProductFullScreenImages extends StatelessWidget {
       width: double.infinity,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemBuilder: ((context, index) => const ProductFullScreenSingleImage()),
-        itemCount: 4,
+        itemBuilder: ((context, index) => ProductFullScreenSingleImage(
+              imageUrl: imageUrlList[index],
+            )),
+        itemCount: imageUrlList.length,
       ),
     );
   }
 }
 
 class ProductFullScreenSingleImage extends StatelessWidget {
-  const ProductFullScreenSingleImage({super.key});
+  String imageUrl;
+  ProductFullScreenSingleImage({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -263,10 +298,11 @@ class ProductFullScreenSingleImage extends StatelessWidget {
             height: 0.4 * screenHeight,
             decoration: BoxDecoration(
               color: kListTileColor,
-              image: const DecorationImage(
+              image: DecorationImage(
                 fit: BoxFit.fitHeight,
                 image: NetworkImage(
-                  'https://www.ulcdn.net/images/products/149916/slide/666x363/0.jpg?1548906914',
+                  // 'https://www.ulcdn.net/images/products/149916/slide/666x363/0.jpg?1548906914'
+                  imageUrl,
                 ),
               ),
               borderRadius: BorderRadius.circular(20),

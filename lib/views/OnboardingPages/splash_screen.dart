@@ -16,7 +16,7 @@ import 'package:woodie/views/Orders/my_orders_screen.dart';
 import 'package:woodie/views/Profile_and_Settings.dart/edit_profile_screen.dart';
 import 'package:woodie/views/Profile_and_Settings.dart/profile_screen.dart';
 import 'package:woodie/views/forgot_reset_password/forgot_password_screen.dart';
-import 'package:woodie/views/homeAndActionMenu/favourite_list.dart';
+import 'package:woodie/views/homeAndActionMenu/category_list.dart';
 import 'package:woodie/views/homeAndActionMenu/home_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/search_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/selected_category_screen.dart';

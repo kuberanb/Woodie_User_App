@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:woodie/controllers/homeScreenController.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/core/constants.dart';
+import 'package:woodie/views/homeAndActionMenu/category_list.dart';
 import 'package:woodie/views/homeAndActionMenu/search_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/selected_category_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/selected_product_fullscreen.dart';
@@ -12,6 +17,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final homeScreenController = Get.put(HomeScreenController());
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -36,51 +42,55 @@ class HomeScreen extends StatelessWidget {
                   title: const Padding(
                     padding: EdgeInsets.only(bottom: 4.0),
                     child: Text(
-                      'Good Morining ',
-                      style: TextStyle(color: kspecialGrey, fontSize: 16),
-                    ),
-                  ),
-                  subtitle: const Text(
-                    'Andrew Ainsley',
-                    style: TextStyle(
+                      'Andrew Ainsley',
+                      style: TextStyle(
                         color: kWhiteColor,
                         fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  trailing: SizedBox(
-                    height: 0.1 * screenHeight,
-                    width: 0.22 * screenWidth,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.notifications_active_outlined,
-                            color: kspecialGrey,
-                            size: 30,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 0.005 * screenWidth,
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.favorite_outline_outlined,
-                            color: kspecialGrey,
-                            size: 30,
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 0.005 * screenWidth,
-                        // ),
-                      ],
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
+                  // subtitle: const Text(
+                  //   'Andrew Ainsley',
+                  //   style: TextStyle(
+                  //       color: kWhiteColor,
+                  //       fontSize: 18,
+                  //       fontWeight: FontWeight.bold),
+                  // ),
+                  // trailing: SizedBox(
+                  //   height: 0.1 * screenHeight,
+                  //   width: 0.22 * screenWidth,
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       InkWell(
+                  //         onTap: () {},
+                  //         child: const Icon(
+                  //           Icons.notifications_active_outlined,
+                  //           color: kspecialGrey,
+                  //           size: 30,
+                  //         ),
+                  //       ),
+                  //       SizedBox(
+                  //         width: 0.005 * screenWidth,
+                  //       ),
+                  //       InkWell(
+                  //         onTap: () {},
+                  //         child: const Icon(
+                  //           Icons.favorite_outline_outlined,
+                  //           color: kspecialGrey,
+                  //           size: 30,
+                  //         ),
+                  //       ),
+                  //       // SizedBox(
+                  //       //   width: 0.005 * screenWidth,
+                  //       // ),
+                  //     ],
+                  //   ),
+                  // ),
                 ),
                 SizedBox(
-                  height: 0.01 * screenHeight,
+                  height: 0.02 * screenHeight,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -88,11 +98,11 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: ((context) => const SearchScreen()),
-                            ),
-                          );
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: ((context) => const SearchScreen()),
+                          //   ),
+                          // );
                         },
                         child: Container(
                           // color: kListTileColor,
@@ -111,12 +121,12 @@ class HomeScreen extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: ((context) =>
-                                          const SearchScreen()),
-                                    ),
-                                  );
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: ((context) =>
+                                  //         const SearchScreen()),
+                                  //   ),
+                                  // );
                                 },
                                 icon: const Icon(
                                   Icons.search,
@@ -167,25 +177,52 @@ class HomeScreen extends StatelessWidget {
                             iconName: 'Sofa',
                             iconUrl: 'assets/images/sofa_icon.png',
                             pressedFunc: () {
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: ((context) =>
+                              //         const SelectedCategoryScreen())));
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: ((context) =>
-                                      const SelectedCategoryScreen())));
+                                  builder: ((context) => CategoryListScreen(
+                                      categoryName: 'Sofa',
+                                      streamCategorydataFunction:
+                                          homeScreenController
+                                              .getSofaProducts()))));
                             },
                           ),
                           CategoryIcons(
                             iconName: 'Chair',
                             iconUrl: 'assets/images/office_chair.png',
-                            pressedFunc: () {},
+                            pressedFunc: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => CategoryListScreen(
+                                      categoryName: 'Chair',
+                                      streamCategorydataFunction:
+                                          homeScreenController
+                                              .getChairProducts()))));
+                            },
                           ),
                           CategoryIcons(
                             iconName: 'Table',
                             iconUrl: 'assets/images/table_icon.png',
-                            pressedFunc: () {},
+                            pressedFunc: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => CategoryListScreen(
+                                      categoryName: 'Table',
+                                      streamCategorydataFunction:
+                                          homeScreenController
+                                              .getTableProducts()))));
+                            },
                           ),
                           CategoryIcons(
                             iconName: 'Kitchen',
                             iconUrl: 'assets/images/fridge_icon.png',
-                            pressedFunc: () {},
+                            pressedFunc: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => CategoryListScreen(
+                                      categoryName: 'Kitchen',
+                                      streamCategorydataFunction:
+                                          homeScreenController
+                                              .getKitchenProducts()))));
+                            },
                           ),
                         ],
                       ),
@@ -198,22 +235,50 @@ class HomeScreen extends StatelessWidget {
                           CategoryIcons(
                             iconName: 'Lamp',
                             iconUrl: 'assets/images/lamp_icon.png',
-                            pressedFunc: () {},
+                            pressedFunc: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => CategoryListScreen(
+                                      categoryName: 'Lamp',
+                                      streamCategorydataFunction:
+                                          homeScreenController
+                                              .getLampProducts()))));
+                            },
                           ),
                           CategoryIcons(
                             iconName: 'Cupboard',
                             iconUrl: 'assets/images/cupboard_icon.png',
-                            pressedFunc: () {},
+                            pressedFunc: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => CategoryListScreen(
+                                      categoryName: 'Cupboard',
+                                      streamCategorydataFunction:
+                                          homeScreenController
+                                              .getCupboardProducts()))));
+                            },
                           ),
                           CategoryIcons(
                             iconName: 'Vase',
                             iconUrl: 'assets/images/vase_icon.png',
-                            pressedFunc: () {},
+                            pressedFunc: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => CategoryListScreen(
+                                      categoryName: 'Vase',
+                                      streamCategorydataFunction:
+                                          homeScreenController
+                                              .getVaseProducts()))));
+                            },
                           ),
                           CategoryIcons(
                             iconName: 'Others',
                             iconUrl: 'assets/images/others_icon.png',
-                            pressedFunc: () {},
+                            pressedFunc: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => CategoryListScreen(
+                                      categoryName: 'Sofa',
+                                      streamCategorydataFunction:
+                                          homeScreenController
+                                              .getOtherProducts()))));
+                            },
                           ),
                         ],
                       ),
@@ -250,17 +315,75 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                GridView.builder(
-                  physics:
-                      const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                  shrinkWrap: true, // You won't see infinite size error
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 0.02 * screenHeight,
-                  ),
-                  itemBuilder: ((context, index) => const ProductListTile()),
-                  itemCount: 6,
+                StreamBuilder(
+                  stream: homeScreenController.getHomeProducts(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: kWhiteColor,
+                        ),
+                      );
+                    } else if (snapshot.hasData) {
+                      //  final productList = snapshot.data;
+
+                      return GridView.builder(
+                        physics:
+                            const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                        shrinkWrap: true, // You won't see infinite size error
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 0.02 * screenHeight,
+                        ),
+                        itemBuilder: ((context, index) => ProductListTile(
+                              fullScreenNavigation: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: ((context) =>
+                                        SelectedProductFullScreen(
+                                          productName: snapshot
+                                              .data?.docs[index]['productName'],
+                                          productPrice: snapshot.data
+                                              ?.docs[index]['productPrice'],
+                                          productDescription:
+                                              snapshot.data?.docs[index]
+                                                  ['productDescription'],
+                                          productImageList: snapshot.data
+                                              ?.docs[index]['productImages'],
+                                        )),
+                                  ),
+                                );
+                              },
+                              productName: snapshot.data?.docs[index]
+                                  ['productName'],
+                              productPrice: snapshot.data?.docs[index]
+                                  ['productPrice'],
+                              imageUrl: snapshot.data?.docs[index]
+                                  ['productImages'][0],
+                            )),
+                        itemCount: (snapshot.data?.docs.length),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text(
+                          'Some Error Occured',
+                          style: TextStyle(color: kWhiteColor, fontSize: 18),
+                        ),
+                      );
+                    }
+                  }),
                 ),
+                // GridView.builder(
+                //   physics:
+                //       const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                //   shrinkWrap: true, // You won't see infinite size error
+                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //     crossAxisCount: 2,
+                //     mainAxisSpacing: 0.02 * screenHeight,
+                //   ),
+                //   itemBuilder: ((context, index) => const ProductListTile()),
+                //   itemCount: 6,
+                // ),
                 SizedBox(
                   height: 0.03 * screenHeight,
                 ),
@@ -443,7 +566,17 @@ class CategoryIcons extends StatelessWidget {
 // }
 
 class ProductListTile extends StatelessWidget {
-  const ProductListTile({super.key});
+  VoidCallback fullScreenNavigation;
+  String productName;
+  int productPrice;
+  String imageUrl;
+  ProductListTile({
+    super.key,
+    required this.fullScreenNavigation,
+    required this.productName,
+    required this.productPrice,
+    required this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -451,9 +584,12 @@ class ProductListTile extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: ((context) => const SelectedProductFullScreen())));
-      },
+      onTap: fullScreenNavigation,
+
+      //  () {
+      //   Navigator.of(context).push(MaterialPageRoute(
+      //       builder: ((context) => const SelectedProductFullScreen())));
+      // },
       child: SizedBox(
         width: 0.4 * screenWidth,
         height: 0.24 * screenHeight,
@@ -467,35 +603,38 @@ class ProductListTile extends StatelessWidget {
                   height: 0.15 * screenHeight,
                   decoration: BoxDecoration(
                     color: kListTileColor,
-                    image: const DecorationImage(
-                      fit: BoxFit.fitHeight,
+                    image: DecorationImage(
+                      fit: BoxFit.contain,
                       image: NetworkImage(
-                        'https://www.ulcdn.net/images/products/162605/slide/666x363/Carven_Lounge_Chair_Grey_1.jpg?1514963528',
+                        // 'https://www.ulcdn.net/images/products/162605/slide/666x363/Carven_Lounge_Chair_Grey_1.jpg?1514963528',
+                        imageUrl,
                       ),
                     ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                Positioned(
-                  right: 0,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite_border_outlined,
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   right: 0,
+                //   child: IconButton(
+                //     onPressed: () {},
+                //     icon: const Icon(
+                //       Icons.favorite_border_outlined,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             SizedBox(
               height: 0.01 * screenHeight,
             ),
-            const Text(
-              'Form Padded Chair',
-              style: TextStyle(
-                  color: kWhiteColor,
-                  fontSize: 18,
-                  overflow: TextOverflow.ellipsis),
+            Text(
+              // 'Form Padded Chair',
+              productName,
+              style: const TextStyle(
+                color: kWhiteColor,
+                fontSize: 18,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             SizedBox(
               height: 0.01 * screenHeight,
@@ -506,9 +645,9 @@ class ProductListTile extends StatelessWidget {
                 SizedBox(
                   width: 0.05 * screenWidth,
                 ),
-                const Text(
-                  '₹ 9,000',
-                  style: TextStyle(
+                Text(
+                  "₹ $productPrice",
+                  style: const TextStyle(
                     color: kLightWhiteColor,
                     fontSize: 16,
                   ),
