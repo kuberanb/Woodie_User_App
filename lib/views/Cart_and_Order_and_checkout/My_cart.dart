@@ -25,7 +25,7 @@ class MyCart extends StatelessWidget {
         height: 0.9 * screenHeight,
         child: SingleChildScrollView(
           child: Column(
-            children: [  
+            children: [
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -35,7 +35,10 @@ class MyCart extends StatelessWidget {
                     )),
                 itemCount: 10,
               ),
-             // const   Spacer(),
+              // const   Spacer(),
+              SizedBox(
+                height: 0.02 * screenHeight, 
+              ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
@@ -87,7 +90,7 @@ class MyCart extends StatelessWidget {
                               onTap: () {},
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                  top: 0.02 * screenHeight, 
+                                  top: 0.02 * screenHeight,
                                 ),
                                 child: Container(
                                   decoration: BoxDecoration(
