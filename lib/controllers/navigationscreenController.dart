@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
-import 'package:woodie/views/Cart_and_Order_and_checkout/My_cart.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/my_cart_screen.dart';
 import 'package:woodie/views/Profile_and_Settings.dart/profile_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/home_screen.dart';
 
@@ -11,7 +11,7 @@ class NavigationScreenController extends GetxController {
 
   final pages = [
     const HomeScreen(),
-    const MyCart(),
+    const MyCartScreen(),
     const MyOrders(),
     const ProfileScreen(),
   ];

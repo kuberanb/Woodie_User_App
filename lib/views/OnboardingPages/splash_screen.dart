@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/AccountSetup/account_setup_Screen.dart';
 import 'package:woodie/views/BottomNavigationbar/navigation_screen.dart';
-import 'package:woodie/views/Cart_and_Order_and_checkout/My_cart.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/my_cart_screen.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/add_new_address_screen.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/checkout_screen.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/payments_methods_screen.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/main.dart';
-import 'package:woodie/views/Cart_and_Order_and_checkout/My_cart.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/my_cart_screen.dart';
 
 showCartToCheckoutBottomSheet(
     {required BuildContext context,
@@ -74,130 +74,130 @@ showCartToCheckoutBottomSheet(
   );
 }
 
-showRemoveFromCartBottomSheet(
-    {required BuildContext context,
-    required screenHeight,
-    required screenWidth}) {
-  return showModalBottomSheet(
-    backgroundColor: Colors.transparent,
-    context: context,
-    builder: ((context) => Padding(
-          padding: EdgeInsets.all(
-            0.02 * screenWidth,
-          ),
-          child: Container(
-            height: 0.35 * screenHeight,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Divider(
-                      thickness: 1,
-                      color: kspecialGrey,
-                      indent: 0.4 * screenWidth,
-                      endIndent: 0.4 * screenWidth,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 0.02 * screenHeight,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Remove from Cart?',
-                      style: TextStyle(
-                        color: kWhiteColor,
-                        fontSize: 22,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 0.02 * screenHeight,
-                ),
-                const Divider(
-                  color: kspecialGrey,
-                ),
-                SizedBox(
-                  height: 0.02 * screenHeight,
-                ),
-                const MyCartSingleItem(),
-                SizedBox(
-                  height: 0.02 * screenHeight,
-                ),
-                const Divider(
-                  color: kspecialGrey,
-                ),
-                SizedBox(
-                  height: 0.02 * screenHeight,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        width: 0.4 * screenWidth,
-                        height: 0.05 * screenHeight,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: kLightWhiteColor),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                'Cancel',
-                                style: TextStyle(
-                                  color: kWhiteColor,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ]),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        width: 0.4 * screenWidth,
-                        height: 0.05 * screenHeight,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: kWhiteColor,
-                        ),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                'Yes,Remove',
-                                style: TextStyle(
-                                  color: kBlackColor,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ]),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 0.04 * screenHeight,
-                ),
-              ],
-            ),
-          ),
-        )),
-  );
-}
+// showRemoveFromCartBottomSheet(
+//     {required BuildContext context,
+//     required screenHeight,
+//     required screenWidth}) {
+//   return showModalBottomSheet(
+//     backgroundColor: Colors.transparent,
+//     context: context,
+//     builder: ((context) => Padding(
+//           padding: EdgeInsets.all(
+//             0.02 * screenWidth,
+//           ),
+//           child: Container(
+//             height: 0.35 * screenHeight,
+//             width: double.infinity,
+//             decoration: const BoxDecoration(
+//               borderRadius: BorderRadius.only(
+//                 topLeft: Radius.circular(20),
+//                 topRight: Radius.circular(20),
+//               ),
+//             ),
+//             child: Column(
+//               children: [
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Divider(
+//                       thickness: 1,
+//                       color: kspecialGrey,
+//                       indent: 0.4 * screenWidth,
+//                       endIndent: 0.4 * screenWidth,
+//                     ),
+//                   ],
+//                 ),
+//                 SizedBox(
+//                   height: 0.02 * screenHeight,
+//                 ),
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: const [
+//                     Text(
+//                       'Remove from Cart?',
+//                       style: TextStyle(
+//                         color: kWhiteColor,
+//                         fontSize: 22,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 SizedBox(
+//                   height: 0.02 * screenHeight,
+//                 ),
+//                 const Divider(
+//                   color: kspecialGrey,
+//                 ),
+//                 SizedBox(
+//                   height: 0.02 * screenHeight,
+//                 ),
+//                 const MyCartSingleItem(),
+//                 SizedBox(
+//                   height: 0.02 * screenHeight,
+//                 ),
+//                 const Divider(
+//                   color: kspecialGrey,
+//                 ),
+//                 SizedBox(
+//                   height: 0.02 * screenHeight,
+//                 ),
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     InkWell(
+//                       onTap: () {},
+//                       child: Container(
+//                         width: 0.4 * screenWidth,
+//                         height: 0.05 * screenHeight,
+//                         decoration: BoxDecoration(
+//                             borderRadius: BorderRadius.circular(20),
+//                             color: kLightWhiteColor),
+//                         child: Row(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             children: const [
+//                               Text(
+//                                 'Cancel',
+//                                 style: TextStyle(
+//                                   color: kWhiteColor,
+//                                   fontSize: 14,
+//                                 ),
+//                               ),
+//                             ]),
+//                       ),
+//                     ),
+//                     InkWell(
+//                       onTap: () {},
+//                       child: Container(
+//                         width: 0.4 * screenWidth,
+//                         height: 0.05 * screenHeight,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(20),
+//                           color: kWhiteColor,
+//                         ),
+//                         child: Row(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             children: const [
+//                               Text(
+//                                 'Yes,Remove',
+//                                 style: TextStyle(
+//                                   color: kBlackColor,
+//                                   fontSize: 14,
+//                                 ),
+//                               ),
+//                             ]),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 SizedBox(
+//                   height: 0.04 * screenHeight,
+//                 ),
+//               ],
+//             ),
+//           ),
+//         )),
+//   );
+// }
 
 showLogoutBottonSheet(
     {required BuildContext context,

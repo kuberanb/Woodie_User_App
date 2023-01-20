@@ -287,7 +287,7 @@ class _SelectedProductFullScreenState extends State<SelectedProductFullScreen> {
                           id: cart.id,
                           productName: widget.productName,
                           productImage: widget.productImageList[0],
-                          productPrice: widget.productPrice,
+                          productPrice: controller.totalPrice,
                           productQuantity: controller.productQuantity,
                         ).toJson());
 
