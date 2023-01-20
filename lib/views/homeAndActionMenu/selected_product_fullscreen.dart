@@ -374,7 +374,7 @@ class ProductFullScreenSingleImage extends StatelessWidget {
             decoration: BoxDecoration(
               color: kListTileColor,
               image: DecorationImage(
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fill, 
                 image: NetworkImage(
                   // 'https://www.ulcdn.net/images/products/149916/slide/666x363/0.jpg?1548906914'
                   imageUrl,

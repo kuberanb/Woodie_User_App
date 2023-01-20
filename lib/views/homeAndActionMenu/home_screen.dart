@@ -604,7 +604,7 @@ class ProductListTile extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: kListTileColor,
                     image: DecorationImage(
-                      fit: BoxFit.contain,
+                      fit: BoxFit.fill, 
                       image: NetworkImage(
                         // 'https://www.ulcdn.net/images/products/162605/slide/666x363/Carven_Lounge_Chair_Grey_1.jpg?1514963528',
                         imageUrl,
