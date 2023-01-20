@@ -282,7 +282,7 @@ class _SelectedProductFullScreenState extends State<SelectedProductFullScreen> {
                             .doc(FirebaseAuth.instance.currentUser!.email)
                             .collection(userCartCollection)
                             .doc(widget.productName +
-                                widget.productPrice.toString());
+                                2.toString());
                         await cart.set(CartModel(
                           id: cart.id,
                           productName: widget.productName,

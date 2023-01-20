@@ -26,146 +26,152 @@ class MyCartScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            StreamBuilder(
-              stream: controller.getCartProducts(),
-              builder: ((context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: kWhiteColor,
-                    ),
-                  );
-                } else if (snapshot.hasData) {
-                  if (snapshot.data!.isNotEmpty) {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: ((context, index) => MyCartSingleItem(
-                            productName: snapshot.data![index].productName,
-                            productPrice: snapshot.data![index].productPrice,
-                            productQuantity:
-                                snapshot.data![index].productQuantity,
-                            productImageUrl: snapshot.data![index].productImage,
-                            id: snapshot.data![index].id,
-                          )),
-                      separatorBuilder: ((context, index) => SizedBox(
-                            height: 0.02 * screenHeight,
-                          )),
-                      itemCount: snapshot.data!.length,
+      body: SizedBox(
+        height: 0.8 * screenHeight,
+        width: screenWidth,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              StreamBuilder(
+                stream: controller.getCartProducts(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: kWhiteColor,
+                      ),
                     );
+                  } else if (snapshot.hasData) {
+                    if (snapshot.data!.isNotEmpty) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: ((context, index) => MyCartSingleItem(
+                              productName: snapshot.data![index].productName,
+                              productPrice: snapshot.data![index].productPrice,
+                              productQuantity:
+                                  snapshot.data![index].productQuantity,
+                              productImageUrl:
+                                  snapshot.data![index].productImage,
+                              id: snapshot.data![index].id,
+                            )),
+                        separatorBuilder: ((context, index) => SizedBox(
+                              height: 0.02 * screenHeight,
+                            )),
+                        itemCount: snapshot.data!.length,
+                      );
+                    } else {
+                      return const Center(
+                        child: Text(
+                          'Cart is Empty',
+                          style: TextStyle(
+                            color: kWhiteColor,
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    }
                   } else {
                     return const Center(
                       child: Text(
-                        'Cart is Empty',
+                        'Something Went Wrong',
                         style: TextStyle(
                           color: kWhiteColor,
                           fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     );
                   }
-                } else {
-                  return const Center(
-                    child: Text(
-                      'Something Went Wrong',
-                      style: TextStyle(
-                        color: kWhiteColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                }
-              }),
-            ),
+                }),
+              ),
 
-            // const   Spacer(),
-            SizedBox(
-              height: 0.02 * screenHeight,
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 0.142 * screenHeight,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: kListTileColor,
-                  border: Border.all(
-                    color: kLightWhiteColor,
-                    width: 1,
+              // const   Spacer(),
+              SizedBox(
+                height: 0.02 * screenHeight,
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 0.142 * screenHeight,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: kListTileColor,
+                    border: Border.all(
+                      color: kLightWhiteColor,
+                      width: 1,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
                   ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 0.02 * screenWidth,
-                    right: 0.02 * screenWidth,
-                    top: 0.02 * screenHeight,
-                    bottom: 0.02 * screenHeight,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          const Text(
-                            'Total Price',
-                            style: TextStyle(
-                              color: kspecialGrey,
-                              fontSize: 14,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 0.01 * screenHeight,
-                          ),
-                          const Text(
-                            '₹ 50000',
-                            style: TextStyle(color: kWhiteColor, fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                top: 0.02 * screenHeight,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 0.02 * screenWidth,
+                      right: 0.02 * screenWidth,
+                      top: 0.02 * screenHeight,
+                      bottom: 0.02 * screenHeight,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            const Text(
+                              'Total Price',
+                              style: TextStyle(
+                                color: kspecialGrey,
+                                fontSize: 14,
                               ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: kWhiteColor,
-                                  borderRadius: BorderRadius.circular(10),
+                            ),
+                            SizedBox(
+                              height: 0.01 * screenHeight,
+                            ),
+                            const Text(
+                              '₹ 50000',
+                              style:
+                                  TextStyle(color: kWhiteColor, fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {},
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  top: 0.02 * screenHeight,
                                 ),
-                                width: 0.2 * screenWidth,
-                                height: 0.05 * screenHeight,
-                                child: const Center(
-                                  child: Text(
-                                    'CheckOut',
-                                    style: TextStyle(
-                                      color: kBlackColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kWhiteColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  width: 0.2 * screenWidth,
+                                  height: 0.05 * screenHeight,
+                                  child: const Center(
+                                    child: Text(
+                                      'CheckOut',
+                                      style: TextStyle(
+                                        color: kBlackColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -250,21 +256,23 @@ class MyCartSingleItem extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              // 'Lowson Chair'
-                              productName,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  color: kWhiteColor,
-                                  fontSize: 18,
-                                  overflow: TextOverflow.ellipsis),
+                            Flexible(
+                              child: Text(
+                                // 'Lowson Chair'
+                                productName,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: kWhiteColor,
+                                    fontSize: 18,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
                             ),
                             // SizedBox(
                             //   width: 0.07 * screenWidth,
                             // ),
                             IconButton(
                               onPressed: () {
-                              controller.deletecartProduct(id,context);
+                                controller.deletecartProduct(id, context);
                               },
                               icon: const Icon(
                                 Icons.delete_outline_outlined,
@@ -298,7 +306,7 @@ class MyCartSingleItem extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '₹ $productPrice',
+                                  '₹ ${productPrice*productQuantity}',
                                   style: const TextStyle(
                                     color: kWhiteColor,
                                     fontSize: 18,
@@ -321,7 +329,19 @@ class MyCartSingleItem extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      if (productQuantity > 1) {
+                                        FirebaseFirestore.instance
+                                            .collection(cartCollection)
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser!.email)
+                                            .collection(userCartCollection)
+                                            .doc(productName + 2.toString())
+                                            .update({
+                                          "productQuantity": productQuantity - 1
+                                        });
+                                      }
+                                    },
                                     icon: const Icon(
                                       Icons.remove,
                                       color: kWhiteColor,
@@ -336,7 +356,17 @@ class MyCartSingleItem extends StatelessWidget {
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection(cartCollection)
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser!.email)
+                                          .collection(userCartCollection)
+                                          .doc(productName + 2.toString())
+                                          .update({
+                                        "productQuantity": productQuantity + 1
+                                      });
+                                    },
                                     icon: const Icon(
                                       Icons.add,
                                       color: kWhiteColor,
