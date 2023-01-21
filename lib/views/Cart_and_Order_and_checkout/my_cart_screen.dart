@@ -5,6 +5,8 @@ import 'package:woodie/controllers/cart_controller.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:get/get.dart';
 import 'package:woodie/core/constants.dart';
+import 'package:woodie/models/cart_model.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/shipping_address_screen.dart';
 
 class MyCartScreen extends StatelessWidget {
   const MyCartScreen({super.key});
@@ -14,6 +16,7 @@ class MyCartScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.height;
     final controller = Get.put(CartController());
+    int totalAmount = 0;
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -90,85 +93,142 @@ class MyCartScreen extends StatelessWidget {
               SizedBox(
                 height: 0.02 * screenHeight,
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 0.142 * screenHeight,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: kListTileColor,
-                    border: Border.all(
-                      color: kLightWhiteColor,
-                      width: 1,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
+
+              StreamBuilder(
+                  stream: controller.getCartProducts(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: kWhiteColor,
+                      ));
+                    } else if (snapshot.hasData) {
+                      final cartList = snapshot.data;
+                      if (snapshot.data!.isEmpty) {
+                        return Container();
+                      } else {
+                        totalAmount = 0;
+                        for (var cart in cartList!) {
+                          final nitemprice =
+                              cart.productPrice * cart.productQuantity;
+                          totalAmount += nitemprice;
+                        }
+
+                        return BottomCheckoutWidget(
+                          carts: snapshot.data!,
+                          totalAmount: totalAmount,
+                        );
+                      }
+                    } else {
+                      return const Center(
+                        child: Text(
+                          'Something Went Wrong',
+                          style: TextStyle(color: kWhiteColor),
+                        ),
+                      );
+                    }
+                  }))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BottomCheckoutWidget extends StatelessWidget {
+  BottomCheckoutWidget({
+    Key? key,
+    required this.carts,
+    required this.totalAmount,
+  }) : super(key: key);
+
+  List<CartModel> carts;
+  int totalAmount;
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: 0.142 * screenHeight,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: kListTileColor,
+          border: Border.all(
+            color: kLightWhiteColor,
+            width: 1,
+          ),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 0.02 * screenWidth,
+            right: 0.02 * screenWidth,
+            top: 0.02 * screenHeight,
+            bottom: 0.02 * screenHeight,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  const Text(
+                    'Total Price',
+                    style: TextStyle(
+                      color: kspecialGrey,
+                      fontSize: 14,
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: 0.02 * screenWidth,
-                      right: 0.02 * screenWidth,
-                      top: 0.02 * screenHeight,
-                      bottom: 0.02 * screenHeight,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            const Text(
-                              'Total Price',
-                              style: TextStyle(
-                                color: kspecialGrey,
-                                fontSize: 14,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 0.01 * screenHeight,
-                            ),
-                            const Text(
-                              '₹ 50000',
-                              style:
-                                  TextStyle(color: kWhiteColor, fontSize: 18),
-                            ),
-                          ],
+                  SizedBox(
+                    height: 0.01 * screenHeight,
+                  ),
+                  Text(
+                    '₹ ${totalAmount}',
+                    style: const TextStyle(color: kWhiteColor, fontSize: 18),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                                const ShippingAddressScreen())),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: 0.02 * screenHeight,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: kWhiteColor,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        Column(
-                          children: [
-                            InkWell(
-                              onTap: () {},
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: 0.02 * screenHeight,
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: kWhiteColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  width: 0.2 * screenWidth,
-                                  height: 0.05 * screenHeight,
-                                  child: const Center(
-                                    child: Text(
-                                      'CheckOut',
-                                      style: TextStyle(
-                                        color: kBlackColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                        width: 0.4 * screenWidth,
+                        height: 0.05 * screenHeight,
+                        child: const Center(
+                          child: Text(
+                            'CheckOut',
+                            style: TextStyle(
+                              color: kBlackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
@@ -306,7 +366,7 @@ class MyCartSingleItem extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '₹ ${productPrice*productQuantity}',
+                                  '₹ ${productPrice * productQuantity}',
                                   style: const TextStyle(
                                     color: kWhiteColor,
                                     fontSize: 18,

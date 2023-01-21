@@ -125,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                 onPressFunction: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: ((context) => const ShippinAddress()),
+                      builder: ((context) => const ShippingAddressScreen()),
                     ),
                   );
                 },

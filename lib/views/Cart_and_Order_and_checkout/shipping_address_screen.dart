@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/add_new_address_screen.dart';
 
-class ShippinAddress extends StatefulWidget {
-  const ShippinAddress({super.key});
+class ShippingAddressScreen extends StatefulWidget {
+  const ShippingAddressScreen({super.key});
 
   @override
-  State<ShippinAddress> createState() => _ShippinAddressState();
+  State<ShippingAddressScreen> createState() => _ShippinAddressState();
 }
 
-class _ShippinAddressState extends State<ShippinAddress> {
+class _ShippinAddressState extends State<ShippingAddressScreen> {
   int _value = 0;
 
   @override
