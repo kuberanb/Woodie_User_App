@@ -219,8 +219,10 @@ class _CreateYourAccountState extends State<CreateYourAccount> {
                         if (value == null || value.isEmpty) {
                           return 'Enter Name';
                         } else if (value.length <= 1) {
-                          return 'Enter name Length greater than 1 letters';
-                        } else {
+                          return 'Name Length should greater than 1 letters';
+                        } else if(value.contains(RegExp(r'[0-9]'))){
+                          return "Name can't include numbers";
+                        }else{
                           return null;
                         }
                       },

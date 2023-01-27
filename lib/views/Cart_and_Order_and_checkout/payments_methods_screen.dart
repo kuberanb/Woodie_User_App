@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/models/address_model.dart';
 
 class PaymentsMethodsScreen extends StatefulWidget {
-  const PaymentsMethodsScreen({super.key});
+   PaymentsMethodsScreen({super.key, required this.address});
+
+  final AddressModel address;
 
   @override
   State<PaymentsMethodsScreen> createState() => _PaymentsMethodsScreenState();
@@ -154,7 +159,9 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
                 ),
                 const Spacer(),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    log(widget.address.city.toString());
+                  },
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(

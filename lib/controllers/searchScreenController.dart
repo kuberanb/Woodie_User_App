@@ -5,34 +5,34 @@ import 'package:woodie/core/constants.dart';
 
 class SearchScreenController extends GetxController {
 
-  late Stream<QuerySnapshot> searchedProductList;
+ var searchedProductList;
 
   int foundProductLength = 0;
 
   @override
   void onInit() {
     // TODO: implement onInit
-    searchedProductList = getHomeProducts();
+   // searchedProductList =  getHomeProducts();
     super.onInit();
   }
 
   final searchController = TextEditingController();
 
-  Stream<QuerySnapshot> getHomeProducts() {
+  Future getHomeProducts() async{
     var firestore = FirebaseFirestore.instance;
     return firestore.collection(productsCollection).snapshots();
   }
 
   searchProductsFromFirebase() {
     
-   searchedProductList =  FirebaseFirestore.instance
+   searchedProductList =   FirebaseFirestore.instance
         .collection(productsCollection)
         .where(
           "productName",
           isEqualTo: searchController.text,
         )
         .snapshots();
-   return searchedProductList;
+   return searchedProductList.first;
    // foundProductLength = await searchedProductList.length;
   }
 }
