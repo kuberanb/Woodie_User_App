@@ -1,11 +1,18 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woodie/controllers/address_controller.dart';
+import 'package:woodie/controllers/cart_controller.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/core/constants.dart';
+import 'package:woodie/functions/MiscellaneousFunctions.dart';
 import 'package:woodie/models/address_model.dart';
+import 'package:woodie/models/cart_model.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/add_new_address_screen.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/address_full_screen.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/payments_methods_screen.dart';
 
 class ShippingAddressScreen extends StatefulWidget {
@@ -56,10 +63,6 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
             width: screenWidth,
             child: Column(
               children: [
-                SizedBox(
-                  height: 0.02 * screenHeight,
-                ),
-
                 // ListTile(
                 //   shape: RoundedRectangleBorder(
                 //     borderRadius: BorderRadius.circular(20),
@@ -174,6 +177,9 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
                               listTileTitle: snapshot.data![index].fullName,
                               listTileSubtitle: snapshot.data![index].hName +
                                   snapshot.data![index].state,
+                              pincode: snapshot.data![index].pincode,
+                              addresList: snapshot.data!,
+                              index: index,
                             ),
                             separatorBuilder: ((context, index) => SizedBox(
                                   height: 0.02 * screenHeight,
@@ -275,28 +281,36 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
 
   Future<void> gotoPaymentScreen() async {
     final controller = Get.put(AddressController());
+    final cartController = Get.put(CartController());
+
+    final List<CartModel> cartList = await cartController.getCartProducts().first;
 
     List<AddressModel> addressList = await controller.getAllAddress().first;
     AddressModel address = addressList[groupValue];
     await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) {
-        return PaymentsMethodsScreen(address: address);
+        return PaymentsMethodsScreen(address: address, cartProductsList: cartList,);
       },
     ));
   }
 }
 
-// ignore: must_be_immutable
 class ShippingAddressListTile extends StatelessWidget {
   ShippingAddressListTile({
     Key? key,
     required this.listTileTitle,
     required this.listTileSubtitle,
+    required this.pincode,
+    required this.addresList,
+    required this.index,
     required this.radio,
   }) : super(key: key);
 
   final String listTileTitle;
   final String listTileSubtitle;
+  final int pincode;
+  List<AddressModel> addresList;
+  int index;
   final Widget radio;
 
   @override
@@ -304,6 +318,15 @@ class ShippingAddressListTile extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return ListTile(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: ((context) => AddressFullScreen(
+                  selectedAddress: addresList[index],
+                )),
+          ),
+        );
+      },
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -329,9 +352,17 @@ class ShippingAddressListTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection(addressCollection)
+                    .doc(FirebaseAuth.instance.currentUser!.email)
+                    .collection(userAddressCollection)
+                    .doc(listTileTitle + pincode.toString())
+                    .delete();
+                errorSnackBar('Address Deleted Sucessfully', context);
+              },
               icon: const Icon(
-                Icons.edit,
+                Icons.delete,
                 color: kWhiteColor,
               ),
             ),
@@ -340,7 +371,15 @@ class ShippingAddressListTile extends StatelessWidget {
         ),
       ),
       leading: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: ((context) => AddressFullScreen(
+                    selectedAddress: addresList[index],
+                  )),
+            ),
+          );
+        },
         child: Column(
           children: [
             Container(

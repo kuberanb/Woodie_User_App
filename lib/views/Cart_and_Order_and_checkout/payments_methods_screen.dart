@@ -3,11 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/models/address_model.dart';
+import 'package:woodie/models/cart_model.dart';
 
 class PaymentsMethodsScreen extends StatefulWidget {
-   PaymentsMethodsScreen({super.key, required this.address});
+  const PaymentsMethodsScreen(
+      {super.key, required this.address, required this.cartProductsList});
 
   final AddressModel address;
+  final List<CartModel> cartProductsList;
 
   @override
   State<PaymentsMethodsScreen> createState() => _PaymentsMethodsScreenState();
@@ -77,7 +80,7 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
                     '  R',
                     style: TextStyle(
                       color: kBlueColor,
-                      fontSize: 24, 
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -137,7 +140,7 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
                     ),
                   ),
                   title: const Text(
-                    'Google Pay',
+                    'Cash On Delivery',
                     style: TextStyle(
                       color: kWhiteColor,
                       fontSize: 20,

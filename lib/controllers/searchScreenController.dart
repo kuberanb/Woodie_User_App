@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woodie/core/constants.dart';
+import 'package:woodie/models/product_model.dart';
 
 class SearchScreenController extends GetxController {
 
@@ -31,8 +32,9 @@ class SearchScreenController extends GetxController {
           "productName",
           isEqualTo: searchController.text,
         )
-        .snapshots();
-   return searchedProductList.first;
+        .snapshots().map((snapshot) => snapshot.docs.map((doc) => ProductModel.fromJson(doc.data())).toList()).first;
+
+  //  return searchedProductList.first;
    // foundProductLength = await searchedProductList.length;
   }
 }
