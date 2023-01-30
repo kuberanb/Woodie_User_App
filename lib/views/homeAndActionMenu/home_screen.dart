@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woodie/controllers/homeScreenController.dart';
+import 'package:woodie/controllers/searchScreenController.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/core/constants.dart';
+import 'package:woodie/models/product_model.dart';
 import 'package:woodie/views/homeAndActionMenu/category_list.dart';
 import 'package:woodie/views/homeAndActionMenu/search_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/selected_category_screen.dart';
@@ -18,6 +20,7 @@ class HomeScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final homeScreenController = Get.put(HomeScreenController());
+    final seachScreenController = Get.put(SearchScreenController());
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -97,10 +100,17 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       InkWell(
-                        onTap: () {
+                        onTap: () async {
+                          List<ProductModel> productList =
+                              await seachScreenController
+                                  .searchProductsFromFirebase()
+                                  .first;
+
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: ((context) => const SearchScreen()),
+                              builder: ((context) => SearchScreen(
+                                    productList: productList,
+                                  )),
                             ),
                           );
                         },
@@ -120,11 +130,17 @@ class HomeScreen extends StatelessWidget {
                                     color: kspecialGrey, fontSize: 22),
                               ),
                               IconButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  List<ProductModel> productList =
+                                      await seachScreenController
+                                          .searchProductsFromFirebase()
+                                          .first;
+
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: ((context) =>
-                                          const SearchScreen()),
+                                      builder: ((context) => SearchScreen(
+                                            productList: productList,
+                                          )),
                                     ),
                                   );
                                 },
@@ -583,7 +599,7 @@ class ProductListTile extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return InkWell(
+    return GestureDetector(
       onTap: fullScreenNavigation,
 
       //  () {
@@ -604,7 +620,7 @@ class ProductListTile extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: kListTileColor,
                     image: DecorationImage(
-                      fit: BoxFit.fill, 
+                      fit: BoxFit.fill,
                       image: NetworkImage(
                         // 'https://www.ulcdn.net/images/products/162605/slide/666x363/Carven_Lounge_Chair_Grey_1.jpg?1514963528',
                         imageUrl,

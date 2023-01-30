@@ -3,11 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woodie/controllers/searchScreenController.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/models/product_model.dart';
 import 'package:woodie/views/homeAndActionMenu/home_screen.dart';
 import 'package:woodie/views/homeAndActionMenu/selected_product_fullscreen.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+class SearchScreen extends StatefulWidget {
+  SearchScreen({super.key, required this.productList});
+
+  List<ProductModel> productList;
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  List<ProductModel>? searchedProductList;
+
+  @override
+  void initState() {
+    searchedProductList = widget.productList;
+    // List.from(widget.productList).cast<ProductModel>().toList();
+    // TODO: implement initState
+    // final controller = Get.put(SearchScreenController());
+
+    super.initState();
+  }
+
+  searchAllProducts(String text) {
+    setState(() {
+      searchedProductList = widget.productList
+          .where((product) =>
+              product.productName!.toLowerCase().contains(text.toLowerCase()))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +79,8 @@ class SearchScreen extends StatelessWidget {
                   controller: controller.searchController,
                   onChanged: ((value) {
                     //  controller.searchController.text = value;
-                    controller.searchProductsFromFirebase();
+                    // controller.searchProductsFromFirebase();
+                    searchAllProducts(value);
                   }),
                   style: const TextStyle(
                     color: kWhiteColor,
@@ -120,64 +150,107 @@ class SearchScreen extends StatelessWidget {
                 height: 0.02 * screenHeight,
               ),
 
-              StreamBuilder<QuerySnapshot>(
-                stream: controller.searchProductsFromFirebase(),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: kWhiteColor,
+              (searchedProductList!.isEmpty)
+                  ? const Center(
+                      child: Text(
+                        'Searched Item Not Found',
+                        style: TextStyle(color: kWhiteColor, fontSize: 20),
                       ),
-                    );
-                  } else if (snapshot.hasData) {
-                    return GridView.builder(
-                      physics:
-                          const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                      shrinkWrap: true, // You won't see infinite size error
+                    )
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: 0.02 * screenHeight,
                       ),
+                      itemCount: searchedProductList!.length,
                       itemBuilder: ((context, index) => ProductListTile(
-                            fullScreenNavigation: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: ((context) =>
-                                      SelectedProductFullScreen(
-                                        productName: snapshot.data?.docs[index]
-                                            ['productName'],
-                                        productPrice: snapshot.data?.docs[index]
-                                            ['productPrice'],
-                                        productDescription: snapshot.data
-                                            ?.docs[index]['productDescription'],
-                                        productImageList: snapshot
-                                            .data?.docs[index]['productImages'],
-                                      )),
-                                ),
-                              );
-                            },
-                            productName: snapshot.data?.docs[index]
-                                ['productName'],
-                            productPrice: snapshot.data?.docs[index]
-                                ['productPrice'],
-                            imageUrl: snapshot.data?.docs[index]
-                                ['productImages'][0],
-                          )),
-                      itemCount: (snapshot.data?.docs.length),
-                    );
-                  } else {
-                    return const Center(
-                      child: Text(
-                        'Something Went Wrong',
-                        style: TextStyle(
-                          color: kWhiteColor,
-                          fontSize: 22,
-                        ),
-                      ),
-                    );
-                  }
-                }),
-              ),
+                          fullScreenNavigation: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: ((context) =>
+                                    SelectedProductFullScreen(
+                                      productName: searchedProductList![index]
+                                          .productName!,
+                                      productPrice: searchedProductList![index]
+                                          .productPrice!,
+                                      productDescription:
+                                          searchedProductList![index]
+                                              .productDescription!,
+                                      productImageList:
+                                          searchedProductList![index]
+                                              .productImages!,
+                                    )),
+                              ),
+                            );
+                          },
+                          productName: searchedProductList![index].productName!,
+                          productPrice:
+                              searchedProductList![index].productPrice!,
+                          imageUrl:
+                              searchedProductList![index].productImages![0] ??
+                                  '')),
+                    ),
+
+              // StreamBuilder<QuerySnapshot>(
+              //   stream: controller.searchProductsFromFirebase(),
+              //   builder: ((context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return const Center(
+              //         child: CircularProgressIndicator(
+              //           color: kWhiteColor,
+              //         ),
+              //       );
+              //     } else if (snapshot.hasData) {
+              //       return GridView.builder(
+              //         physics:
+              //             const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+              //         shrinkWrap: true, // You won't see infinite size error
+              //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //           crossAxisCount: 2,
+              //           mainAxisSpacing: 0.02 * screenHeight,
+              //         ),
+              //         itemBuilder: ((context, index) => ProductListTile(
+              //               fullScreenNavigation: () {
+              //                 Navigator.of(context).push(
+              //                   MaterialPageRoute(
+              //                     builder: ((context) =>
+              //                         SelectedProductFullScreen(
+              //                           productName: snapshot.data?.docs[index]
+              //                               ['productName'],
+              //                           productPrice: snapshot.data?.docs[index]
+              //                               ['productPrice'],
+              //                           productDescription: snapshot.data
+              //                               ?.docs[index]['productDescription'],
+              //                           productImageList: snapshot
+              //                               .data?.docs[index]['productImages'],
+              //                         )),
+              //                   ),
+              //                 );
+              //               },
+              //               productName: snapshot.data?.docs[index]
+              //                   ['productName'],
+              //               productPrice: snapshot.data?.docs[index]
+              //                   ['productPrice'],
+              //               imageUrl: snapshot.data?.docs[index]
+              //                   ['productImages'][0],
+              //             )),
+              //         itemCount: (snapshot.data?.docs.length),
+              //       );
+              //     } else {
+              //       return const Center(
+              //         child: Text(
+              //           'Something Went Wrong',
+              //           style: TextStyle(
+              //             color: kWhiteColor,
+              //             fontSize: 22,
+              //           ),
+              //         ),
+              //       );
+              //     }
+              //   }),
+              // ),
 
               // GridView.builder(
               //   physics:
