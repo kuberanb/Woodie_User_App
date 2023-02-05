@@ -88,10 +88,12 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    user!.email ?? 'Unknown Email',
+                    user!.displayName ?? 'No Name',
                     style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
                       color: kWhiteColor,
                       fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -123,11 +125,11 @@ class ProfileScreen extends StatelessWidget {
               ProfileScreenListTile(
                 title: 'Address',
                 onPressFunction: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: ((context) => const ShippingAddressScreen()),
-                    ),
-                  );
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: ((context) => const ShippingAddressScreen()),
+                  //   ),
+                  // );
                 },
                 iconValue: Icons.location_on,
               ),
@@ -155,9 +157,8 @@ class ProfileScreen extends StatelessWidget {
                 onPressFunction: () {
                   showLogoutBottonSheet(
                     context: context,
-                    logOutFunction: () { 
+                    logOutFunction: () {
                       loginController.signOut(context);
-                      
                     },
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,

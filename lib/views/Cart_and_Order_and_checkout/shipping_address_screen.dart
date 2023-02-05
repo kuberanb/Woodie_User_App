@@ -16,7 +16,9 @@ import 'package:woodie/views/Cart_and_Order_and_checkout/address_full_screen.dar
 import 'package:woodie/views/Cart_and_Order_and_checkout/payments_methods_screen.dart';
 
 class ShippingAddressScreen extends StatefulWidget {
-  const ShippingAddressScreen({super.key});
+  ShippingAddressScreen({super.key, required this.totalAmount});
+
+  int totalAmount;
 
   @override
   State<ShippingAddressScreen> createState() => _ShippingAddressScreenState();
@@ -247,7 +249,7 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
                     alignment: Alignment.bottomCenter,
                     child: InkWell(
                       onTap: () {
-                        gotoPaymentScreen();
+                        gotoPaymentScreen(widget.totalAmount);
                       },
                       child: Container(
                         width: screenWidth,
@@ -279,17 +281,22 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
     );
   }
 
-  Future<void> gotoPaymentScreen() async {
+  Future<void> gotoPaymentScreen(int totalAmount) async {
     final controller = Get.put(AddressController());
     final cartController = Get.put(CartController());
 
-    final List<CartModel> cartList = await cartController.getCartProducts().first;
+    final List<CartModel> cartList =
+        await cartController.getCartProducts().first;
 
     List<AddressModel> addressList = await controller.getAllAddress().first;
     AddressModel address = addressList[groupValue];
     await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) {
-        return PaymentsMethodsScreen(address: address, cartProductsList: cartList,);
+        return PaymentsMethodsScreen(
+          address: address,
+          cartProductsList: cartList,
+          totalAmount: totalAmount,
+        );
       },
     ));
   }

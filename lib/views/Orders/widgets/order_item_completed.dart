@@ -33,12 +33,14 @@ class OrderItemCompleted extends StatelessWidget {
                 height: 0.13 * screenHeight,
                 width: 0.2 * screenWidth,
                 decoration: BoxDecoration(
+                  color: kListTileColor,
+                  image: const DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                      'https://www.ulcdn.net/images/products/201809/slide/666x363/Truman_Study_Table_Creamy_Crust_Finish_Teak_merc.jpg?1624608693',
+                    ),
+                  ),
                   borderRadius: BorderRadius.circular(10),
-                  color: kspecialGrey,
-                ),
-                child: Image.network(
-                  'https://www.ulcdn.net/images/products/201809/slide/666x363/Truman_Study_Table_Creamy_Crust_Finish_Teak_merc.jpg?1624608693',
-                  fit: BoxFit.contain,   
                 ),
               ),
             ),
@@ -78,7 +80,7 @@ class OrderItemCompleted extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 0.02 * screenHeight, 
+                      height: 0.02 * screenHeight,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

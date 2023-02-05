@@ -201,7 +201,7 @@ class BottomCheckoutWidget extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: ((context) =>
-                                const ShippingAddressScreen())),
+                               ShippingAddressScreen(totalAmount:totalAmount)),),
                       );
                     },
                     child: Padding(

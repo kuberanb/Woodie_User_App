@@ -34,12 +34,14 @@ class OrderItemActive extends StatelessWidget {
                 height: 0.13 * screenHeight,
                 width: 0.2 * screenWidth,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: kspecialGrey,
-                ),
-                child: Image.network(
-                  'https://ii1.pepperfry.com/media/catalog/product/a/v/800x880/avilys-solid-wood-coffee-table-in-provincial-teak-finish-by-woodsworth-avilys-solid-wood-coffee-tabl-wqosro.jpg',
-                  fit: BoxFit.contain,
+                  color: kListTileColor,
+                  image: const DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                      'https://ii1.pepperfry.com/media/catalog/product/a/v/800x880/avilys-solid-wood-coffee-table-in-provincial-teak-finish-by-woodsworth-avilys-solid-wood-coffee-tabl-wqosro.jpg',
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(10), 
                 ),
               ),
             ),

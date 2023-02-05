@@ -1,5 +1,4 @@
 
-
 // Create Your Account
 
 const userCollection = 'users';
@@ -19,3 +18,9 @@ const userCartCollection = 'userCarts';
 const addressCollection = 'addressModels';
 
 const userAddressCollection = 'userAddresss';
+
+// Orders
+
+const orderCollection = 'orderModels'; 
+
+const userOrdersCollection = 'userOrders';

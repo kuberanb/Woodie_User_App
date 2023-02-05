@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:woodie/core/constants.dart';
 
 class HomeScreenController extends GetxController {
+  String? userName;
+
   Stream<QuerySnapshot> getHomeProducts() {
     var firestore = FirebaseFirestore.instance;
     return firestore.collection(productsCollection).snapshots();
@@ -71,4 +74,12 @@ class HomeScreenController extends GetxController {
         .where("productCategory", isEqualTo: "Others")
         .snapshots();
   }
+
+  // getUserDetails() {
+  //   var firestore = FirebaseFirestore.instance;
+  //   return firestore
+  //       .collection(userCollection)
+  //       .where("userEmail", isEqualTo: FirebaseAuth.instance.currentUser!.email)
+  //       .snapshots();
+  // }
 }

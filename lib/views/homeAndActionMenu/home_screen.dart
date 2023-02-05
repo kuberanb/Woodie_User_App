@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woodie/controllers/homeScreenController.dart';
@@ -30,7 +31,7 @@ class HomeScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(right: 8.0, left: 8.0),
             child: Column(
-              //    mainAxisAlignment: MainAxisAlignment.start,
+              //  mainAxisAlignment: MainAxisAlignment.start,
               //  crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
@@ -42,11 +43,12 @@ class HomeScreen extends StatelessWidget {
                     backgroundImage:
                         const AssetImage('assets/images/human_face_avatar.png'),
                   ),
-                  title: const Padding(
-                    padding: EdgeInsets.only(bottom: 4.0),
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
                     child: Text(
-                      'Andrew Ainsley',
-                      style: TextStyle(
+                      FirebaseAuth.instance.currentUser!.displayName ??
+                          'No Name',
+                      style: const TextStyle(
                         color: kWhiteColor,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
