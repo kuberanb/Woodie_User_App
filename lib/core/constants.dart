@@ -24,3 +24,9 @@ const userAddressCollection = 'userAddresss';
 const orderCollection = 'orderModels'; 
 
 const userOrdersCollection = 'userOrders';
+
+// Profile Image Url
+
+const imageCollection = 'profileImage';
+
+

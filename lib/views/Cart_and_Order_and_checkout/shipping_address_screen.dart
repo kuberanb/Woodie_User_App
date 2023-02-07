@@ -359,14 +359,21 @@ class ShippingAddressListTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection(addressCollection)
-                    .doc(FirebaseAuth.instance.currentUser!.email)
-                    .collection(userAddressCollection)
-                    .doc(listTileTitle + pincode.toString())
-                    .delete();
-                errorSnackBar('Address Deleted Sucessfully', context);
+              onPressed: () {
+                showAddressDeleteBottonSheet(
+                    context: context,
+                    screenHeight: screenHeight,
+                    addressDeleteFunction: () async {
+                      await FirebaseFirestore.instance
+                          .collection(addressCollection)
+                          .doc(FirebaseAuth.instance.currentUser!.email)
+                          .collection(userAddressCollection)
+                          .doc(listTileTitle + pincode.toString())
+                          .delete();
+                      Navigator.of(context).pop();
+                      errorSnackBar('Address Deleted Sucessfully', context);
+                    },
+                    screenWidth: screenWidth);
               },
               icon: const Icon(
                 Icons.delete,

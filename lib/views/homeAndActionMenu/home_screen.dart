@@ -47,8 +47,11 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: Text(
                       FirebaseAuth.instance.currentUser!.displayName ??
+                          FirebaseAuth.instance.currentUser!.email ??
                           'No Name',
+                      maxLines: 1,
                       style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: kWhiteColor,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

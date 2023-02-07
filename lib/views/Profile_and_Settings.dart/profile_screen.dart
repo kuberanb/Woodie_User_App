@@ -1,12 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woodie/controllers/Authentication/loginController.dart';
+import 'package:woodie/controllers/profile_screen_controller.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/core/constants.dart';
 import 'package:woodie/functions/MiscellaneousFunctions.dart';
+import 'package:woodie/models/profile_image_model.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/shipping_address_screen.dart';
 import 'package:woodie/views/OnboardingPages/main_screen.dart';
 import 'package:woodie/views/Profile_and_Settings.dart/edit_profile_screen.dart';
+import 'package:woodie/views/Profile_and_Settings.dart/help_center_screen.dart';
+import 'package:woodie/views/Profile_and_Settings.dart/profile_address_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -17,6 +24,7 @@ class ProfileScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final user = FirebaseAuth.instance.currentUser;
     final loginController = Get.put(LoginController());
+    final profileController = Get.put(ProfileScreenController());
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -45,40 +53,109 @@ class ProfileScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Stack(
-                    children: [
-                      Center(
-                        child: CircleAvatar(
-                          radius: 0.1 * screenHeight,
-                          backgroundImage: const AssetImage(
-                            'assets/images/human_face_avatar.png',
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 92,
-                        right: 0,
-                        left: 90,
-                        bottom: 0,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Container(
-                            height: 0.15 * screenHeight,
-                            width: 0.15 * screenHeight,
-                            decoration: BoxDecoration(
-                              color: kLightWhiteColor,
-                              borderRadius: BorderRadius.circular(5),
+                  StreamBuilder(
+                      stream: profileController.getProfilePicture(),
+                      builder: ((context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              color: kWhiteColor,
                             ),
-                            child: const Icon(
-                              Icons.edit_outlined,
-                              color: kBlackColor,
-                              size: 60,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                          );
+                        } else if (snapshot.hasData) {
+                          return Stack(
+                            children: [
+                              Center(
+                                child: CircleAvatar(
+                                  radius: 0.2 * screenHeight,
+                                  backgroundImage: NetworkImage(
+                                    //  'assets/images/human_face_avatar.png'
+                                    snapshot.data![0].imageUrl,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 98,
+                                right: 0,
+                                left: 90,
+                                bottom: 0,
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await profileController
+                                        .openGallery(context);
+                                    // ignore: use_build_context_synchronously
+                                    await profileController
+                                        .uploadImagesToFirebase(context);
+                                    // ignore: use_build_context_synchronously
+                                    await profileController
+                                        .uploadImgUrlToFirebaseFirestore(
+                                            context);
+                                  },
+                                  icon: Container(
+                                    height: 0.14 * screenHeight,
+                                    width: 0.13 * screenHeight,
+                                    decoration: BoxDecoration(
+                                      color: kLightWhiteColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: const Icon(
+                                      Icons.edit_outlined,
+                                      color: kBlackColor,
+                                      size: 50,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Stack(
+                            children: [
+                              Center(
+                                child: CircleAvatar(
+                                  radius: 0.2 * screenWidth,
+                                  backgroundImage: const AssetImage(
+                                    'assets/images/human_face_avatar.png',
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 98,
+                                right: 0,
+                                left: 90,
+                                bottom: 0,
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await profileController
+                                        .openGallery(context);
+                                    // ignore: use_build_context_synchronously
+                                    await profileController
+                                        .uploadImagesToFirebase(context);
+                                    // ignore: use_build_context_synchronously
+                                    await profileController
+                                        .uploadImgUrlToFirebaseFirestore(
+                                            context);
+                                  },
+                                  icon: Container(
+                                    height: 0.14 * screenHeight,
+                                    width: 0.13 * screenHeight,
+                                    decoration: BoxDecoration(
+                                      color: kLightWhiteColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: const Icon(
+                                      Icons.edit_outlined,
+                                      color: kBlackColor,
+                                      size: 50,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      })),
                 ],
               ),
               SizedBox(
@@ -88,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    user!.displayName ?? 'No Name',
+                    user!.displayName ?? user.email ?? 'No Name',
                     style: const TextStyle(
                       overflow: TextOverflow.ellipsis,
                       color: kWhiteColor,
@@ -125,6 +202,11 @@ class ProfileScreen extends StatelessWidget {
               ProfileScreenListTile(
                 title: 'Address',
                 onPressFunction: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: ((context) => ProfileAddressScreen()),
+                    ),
+                  );
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(
                   //     builder: ((context) => const ShippingAddressScreen()),
@@ -146,7 +228,9 @@ class ProfileScreen extends StatelessWidget {
               ),
               ProfileScreenListTile(
                 title: 'Help Center',
-                onPressFunction: () {},
+                onPressFunction: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: ((context) => HelpCenterScreen())));
+                },
                 iconValue: Icons.info_outline_rounded,
               ),
               SizedBox(
