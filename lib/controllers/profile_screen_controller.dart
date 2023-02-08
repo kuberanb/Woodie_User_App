@@ -8,7 +8,6 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:woodie/core/constants.dart';
 import 'package:woodie/functions/MiscellaneousFunctions.dart';
-import 'package:woodie/models/profile_image_model.dart';
 
 class ProfileScreenController extends GetxController {
   final picker = ImagePicker();
@@ -33,6 +32,7 @@ class ProfileScreenController extends GetxController {
     if (imageXfile == null) {
       return;
     }
+    errorSnackBar('Selected Image is Uploading', context);
     final path = 'images/${imageXfile!.name}';
     final file = File(imageXfile!.path);
 
@@ -46,6 +46,7 @@ class ProfileScreenController extends GetxController {
     log(imageUrl.toString());
 
     errorSnackBar('Image Uploaded Sucessfully ', context);
+    log('Image Uploaded Sucessfully');
   }
 
   uploadImgUrlToFirebaseFirestore(context) async {
@@ -54,22 +55,42 @@ class ProfileScreenController extends GetxController {
     }
 
     try {
+     errorSnackBar('Fetching the Uploaded Image...', context);
       await FirebaseFirestore.instance
           .collection(imageCollection)
           .doc(FirebaseAuth.instance.currentUser!.email)
-          .set({"profileImageUrl": imageUrl});
+          .collection(imageList)
+          .get()
+          .then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs) {
+          ds.reference.delete();
+        }
+      });
+
+      await FirebaseFirestore.instance
+          .collection(imageCollection)
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .collection(imageList)
+          .add({"profileImageUrl": imageUrl});
+
       log('Uploaded to FirebaseFirestore');
     } catch (e) {
       errorSnackBar(e.toString(), context);
     }
   }
 
-  Stream<List<ProfilePictureModel>> getProfilePicture() {
+  //Stream<List<ProfilePictureModel>>
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getProfilePicture() {
     return FirebaseFirestore.instance
         .collection(imageCollection)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => ProfilePictureModel.fromJson(doc.data()))
-            .toList());
+        .doc(FirebaseAuth.instance.currentUser!.email!)
+        .collection(imageList)
+        .snapshots();
+
+    // .snapshots()
+    // .map((snapshot) => snapshot.docs
+    //     .map((doc) => ProfilePictureModel.fromJson(doc.data()))
+    //     .toList());
   }
 }

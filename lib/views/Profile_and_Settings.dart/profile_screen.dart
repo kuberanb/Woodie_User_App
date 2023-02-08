@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,6 @@ import 'package:woodie/controllers/profile_screen_controller.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/core/constants.dart';
 import 'package:woodie/functions/MiscellaneousFunctions.dart';
-import 'package:woodie/models/profile_image_model.dart';
 import 'package:woodie/views/Cart_and_Order_and_checkout/shipping_address_screen.dart';
 import 'package:woodie/views/OnboardingPages/main_screen.dart';
 import 'package:woodie/views/Profile_and_Settings.dart/edit_profile_screen.dart';
@@ -54,108 +55,119 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   StreamBuilder(
-                      stream: profileController.getProfilePicture(),
-                      builder: ((context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: kWhiteColor,
+                    stream: profileController.getProfilePicture(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: kWhiteColor,
+                          ),
+                        );
+                      } else if (snapshot.hasData &&
+                          snapshot.data!.docs.isNotEmpty) {
+                        int val = (snapshot.data!.docs.length) - 1;
+                        // for (int num = 0;
+                        //     num < snapshot.data!.docs.length;
+                        //     num++) {
+                        //   if (snapshot.data?.docs[num]['profileImageUrl'] ==
+                        //       profileController.imageUrl) {
+                        //     val = num;
+                        //     log('val = ${val}');
+                        //   }
+                        // }
+
+                        // int pos = snapshot.data?.docs['profileImageUrl']
+
+                        log(' photo index $val');
+                        return Stack(
+                          children: [
+                            Center(
+                              child: CircleAvatar(
+                                radius: 0.1 * screenHeight,
+                                backgroundImage: NetworkImage(
+                                  //  'assets/images/human_face_avatar.png'
+                                  snapshot.data?.docs[val]['profileImageUrl'],
+                                ),
+                              ),
                             ),
-                          );
-                        } else if (snapshot.hasData) {
-                          return Stack(
-                            children: [
-                              Center(
-                                child: CircleAvatar(
-                                  radius: 0.2 * screenHeight,
-                                  backgroundImage: NetworkImage(
-                                    //  'assets/images/human_face_avatar.png'
-                                    snapshot.data![0].imageUrl,
+                            Positioned(
+                              top: 98,
+                              right: 0,
+                              left: 90,
+                              bottom: 0,
+                              child: IconButton(
+                                onPressed: () async {
+                                  await profileController.openGallery(context);
+                                  // ignore: use_build_context_synchronously
+                                  await profileController
+                                      .uploadImagesToFirebase(context);
+                                  // ignore: use_build_context_synchronously
+                                  await profileController
+                                      .uploadImgUrlToFirebaseFirestore(context);
+                                },
+                                icon: Container(
+                                  height: 0.14 * screenHeight,
+                                  width: 0.13 * screenHeight,
+                                  decoration: BoxDecoration(
+                                    color: kLightWhiteColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: const Icon(
+                                    Icons.edit_outlined,
+                                    color: kBlackColor,
+                                    size: 50,
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                top: 98,
-                                right: 0,
-                                left: 90,
-                                bottom: 0,
-                                child: IconButton(
-                                  onPressed: () async {
-                                    await profileController
-                                        .openGallery(context);
-                                    // ignore: use_build_context_synchronously
-                                    await profileController
-                                        .uploadImagesToFirebase(context);
-                                    // ignore: use_build_context_synchronously
-                                    await profileController
-                                        .uploadImgUrlToFirebaseFirestore(
-                                            context);
-                                  },
-                                  icon: Container(
-                                    height: 0.14 * screenHeight,
-                                    width: 0.13 * screenHeight,
-                                    decoration: BoxDecoration(
-                                      color: kLightWhiteColor,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: const Icon(
-                                      Icons.edit_outlined,
-                                      color: kBlackColor,
-                                      size: 50,
-                                    ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Stack(
+                          children: [
+                            Center(
+                              child: CircleAvatar(
+                                radius: 0.2 * screenWidth,
+                                backgroundImage: const AssetImage(
+                                  'assets/images/human_face_avatar.png',
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 98,
+                              right: 0,
+                              left: 90,
+                              bottom: 0,
+                              child: IconButton(
+                                onPressed: () async {
+                                  await profileController.openGallery(context);
+                                  // ignore: use_build_context_synchronously
+                                  await profileController
+                                      .uploadImagesToFirebase(context);
+                                  // ignore: use_build_context_synchronously
+                                  await profileController
+                                      .uploadImgUrlToFirebaseFirestore(context);
+                                },
+                                icon: Container(
+                                  height: 0.14 * screenHeight,
+                                  width: 0.13 * screenHeight,
+                                  decoration: BoxDecoration(
+                                    color: kLightWhiteColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: const Icon(
+                                    Icons.edit_outlined,
+                                    color: kBlackColor,
+                                    size: 50,
                                   ),
                                 ),
                               ),
-                            ],
-                          );
-                        } else {
-                          return Stack(
-                            children: [
-                              Center(
-                                child: CircleAvatar(
-                                  radius: 0.2 * screenWidth,
-                                  backgroundImage: const AssetImage(
-                                    'assets/images/human_face_avatar.png',
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 98,
-                                right: 0,
-                                left: 90,
-                                bottom: 0,
-                                child: IconButton(
-                                  onPressed: () async {
-                                    await profileController
-                                        .openGallery(context);
-                                    // ignore: use_build_context_synchronously
-                                    await profileController
-                                        .uploadImagesToFirebase(context);
-                                    // ignore: use_build_context_synchronously
-                                    await profileController
-                                        .uploadImgUrlToFirebaseFirestore(
-                                            context);
-                                  },
-                                  icon: Container(
-                                    height: 0.14 * screenHeight,
-                                    width: 0.13 * screenHeight,
-                                    decoration: BoxDecoration(
-                                      color: kLightWhiteColor,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: const Icon(
-                                      Icons.edit_outlined,
-                                      color: kBlackColor,
-                                      size: 50,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                      })),
+                            ),
+                          ],
+                        );
+                      }
+                    }),
+                  ),
                 ],
               ),
               SizedBox(
@@ -229,7 +241,8 @@ class ProfileScreen extends StatelessWidget {
               ProfileScreenListTile(
                 title: 'Help Center',
                 onPressFunction: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: ((context) => HelpCenterScreen())));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => const HelpCenterScreen())));
                 },
                 iconValue: Icons.info_outline_rounded,
               ),

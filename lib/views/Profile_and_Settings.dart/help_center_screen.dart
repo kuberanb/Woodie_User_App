@@ -72,6 +72,14 @@ class HelpCenterScreen extends StatelessWidget {
               height: 0.01 * screenHeight,
             ),
             EachExpansionTile(
+              expansionTileTitle: 'How to replace the product ',
+              expansionTileDescription:
+                  'You can send us a mail regarding the issue at support@Woodie.com .We will get back to you in 12 to 36hours',
+            ),
+            SizedBox(
+              height: 0.01 * screenHeight,
+            ),
+            EachExpansionTile(
               expansionTileTitle:
                   '''How to change the Password of Woodie App ''',
               expansionTileDescription:
@@ -96,7 +104,38 @@ class HelpCenterScreen extends StatelessWidget {
             SizedBox(
               height: 0.01 * screenHeight,
             ),
-            
+            EachExpansionTile(
+              expansionTileTitle: 'How to return the Product',
+              expansionTileDescription:
+                  'You can send us a mail regarding the issue at support@Woodie.com .We will get back to you in 12 to 36hours',
+            ),
+            SizedBox(
+              height: 0.01 * screenHeight,
+            ),
+            EachExpansionTile(
+              expansionTileTitle: 'How long does it take to Process the refund',
+              expansionTileDescription:
+                  'The refund amount will be credited in your account within 2days to 7days',
+            ),
+            SizedBox(
+              height: 0.01 * screenHeight,
+            ),
+            EachExpansionTile(
+              expansionTileTitle: 'How to track the product',
+              expansionTileDescription:
+                  'You can track the product by clicking the products in orders page',
+            ),
+            SizedBox(
+              height: 0.01 * screenHeight,
+            ),
+            EachExpansionTile(
+              expansionTileTitle: 'Where does the products are sourced',
+              expansionTileDescription:
+                  'The products are sourced mainly from Haryana,Tamil nadu and Hydrebad and then the products are stored in our warehouses in major metro cities',
+            ),
+            SizedBox(
+              height: 0.01 * screenHeight,
+            ),
           ],
         ),
       ),
