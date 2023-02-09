@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woodie/controllers/homeScreenController.dart';
+import 'package:woodie/controllers/profile_screen_controller.dart';
 import 'package:woodie/controllers/searchScreenController.dart';
 import 'package:woodie/core/colorPalettes.dart';
 import 'package:woodie/core/constants.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final homeScreenController = Get.put(HomeScreenController());
     final seachScreenController = Get.put(SearchScreenController());
+    final profileScreenController = Get.put(ProfileScreenController());
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -37,66 +39,107 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   height: 0.02 * screenHeight,
                 ),
-                ListTile(
-                  leading: CircleAvatar(
-                    radius: 0.1 * screenWidth,
-                    backgroundImage:
-                        const AssetImage('assets/images/human_face_avatar.png'),
-                  ),
-                  title: Padding(
-                    padding: const EdgeInsets.only(bottom: 4.0),
-                    child: Text(
-                      FirebaseAuth.instance.currentUser!.displayName ??
-                          FirebaseAuth.instance.currentUser!.email ??
-                          'No Name',
-                      maxLines: 1,
-                      style: const TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        color: kWhiteColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  // subtitle: const Text(
-                  //   'Andrew Ainsley',
-                  //   style: TextStyle(
-                  //       color: kWhiteColor,
-                  //       fontSize: 18,
-                  //       fontWeight: FontWeight.bold),
-                  // ),
-                  // trailing: SizedBox(
-                  //   height: 0.1 * screenHeight,
-                  //   width: 0.22 * screenWidth,
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.end,
-                  //     children: [
-                  //       InkWell(
-                  //         onTap: () {},
-                  //         child: const Icon(
-                  //           Icons.notifications_active_outlined,
-                  //           color: kspecialGrey,
-                  //           size: 30,
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         width: 0.005 * screenWidth,
-                  //       ),
-                  //       InkWell(
-                  //         onTap: () {},
-                  //         child: const Icon(
-                  //           Icons.favorite_outline_outlined,
-                  //           color: kspecialGrey,
-                  //           size: 30,
-                  //         ),
-                  //       ),
-                  //       // SizedBox(
-                  //       //   width: 0.005 * screenWidth,
-                  //       // ),
-                  //     ],
-                  //   ),
-                  // ),
+
+                StreamBuilder(
+                  stream: profileScreenController.getProfilePicture(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: kWhiteColor,
+                          strokeWidth: 2,
+                        ),
+                      );
+                    } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                      int val = (snapshot.data!.docs.length) - 1;
+                      return ListTile(
+                        leading: CircleAvatar(
+                          radius: 0.1 * screenWidth,
+                          backgroundImage: NetworkImage(
+                            snapshot.data?.docs[val]['profileImageUrl'],
+                          ),
+                        ),
+                        title: Padding(
+                          padding: const EdgeInsets.only(bottom: 4.0),
+                          child: Text(
+                            FirebaseAuth.instance.currentUser!.displayName ??
+                                FirebaseAuth.instance.currentUser!.email ??
+                                'No Name',
+                            maxLines: 1,
+                            style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: kWhiteColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          radius: 0.1 * screenWidth,
+                          backgroundImage: const AssetImage(
+                              'assets/images/human_face_avatar.png'),
+                        ),
+                        title: Padding(
+                          padding: const EdgeInsets.only(bottom: 4.0),
+                          child: Text(
+                            FirebaseAuth.instance.currentUser!.displayName ??
+                                FirebaseAuth.instance.currentUser!.email ??
+                                'No Name',
+                            maxLines: 1,
+                            style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: kWhiteColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        // subtitle: const Text(
+                        //   'Andrew Ainsley',
+                        //   style: TextStyle(
+                        //       color: kWhiteColor,
+                        //       fontSize: 18,
+                        //       fontWeight: FontWeight.bold),
+                        // ),
+                        // trailing: SizedBox(
+                        //   height: 0.1 * screenHeight,
+                        //   width: 0.22 * screenWidth,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.end,
+                        //     children: [
+                        //       InkWell(
+                        //         onTap: () {},
+                        //         child: const Icon(
+                        //           Icons.notifications_active_outlined,
+                        //           color: kspecialGrey,
+                        //           size: 30,
+                        //         ),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 0.005 * screenWidth,
+                        //       ),
+                        //       InkWell(
+                        //         onTap: () {},
+                        //         child: const Icon(
+                        //           Icons.favorite_outline_outlined,
+                        //           color: kspecialGrey,
+                        //           size: 30,
+                        //         ),
+                        //       ),
+                        //       // SizedBox(
+                        //       //   width: 0.005 * screenWidth,
+                        //       // ),
+                        //     ],
+                        //   ),
+                        // ),
+                      );
+                    }
+                  }),
                 ),
+
                 SizedBox(
                   height: 0.02 * screenHeight,
                 ),
