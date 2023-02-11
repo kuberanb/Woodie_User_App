@@ -16,6 +16,13 @@ class NavigationScreenController extends GetxController {
     const ProfileScreen(),
   ];
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    pageIndex.close();
+  }
+
   void changeIndex(int index) {
     pageIndex.value = index;
   }

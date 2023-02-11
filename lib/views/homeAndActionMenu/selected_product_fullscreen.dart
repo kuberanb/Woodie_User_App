@@ -6,6 +6,7 @@ import 'package:woodie/core/constants.dart';
 import "package:get/get.dart";
 import 'package:woodie/functions/MiscellaneousFunctions.dart';
 import 'package:woodie/models/cart_model.dart';
+import 'package:woodie/views/BottomNavigationbar/navigation_screen.dart';
 
 import '../../controllers/selected_product_fulllscreen_controller.dart';
 
@@ -277,19 +278,40 @@ class _SelectedProductFullScreenState extends State<SelectedProductFullScreen> {
                     ),
                     InkWell(
                       onTap: () async {
-                        final cart = FirebaseFirestore.instance
-                            .collection(cartCollection)
-                            .doc(FirebaseAuth.instance.currentUser!.email)
-                            .collection(userCartCollection)
-                            .doc(widget.productName +
-                                2.toString());
-                        await cart.set(CartModel(
-                          id: cart.id,
-                          productName: widget.productName,
-                          productImage: widget.productImageList[0],
-                          productPrice: widget.productPrice,
-                          productQuantity: controller.productQuantity,
-                        ).toJson());
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: ((context) => const Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: kWhiteColor,
+                                ),
+                              )),
+                        );
+
+                        try {
+                          final cart = FirebaseFirestore.instance
+                              .collection(cartCollection)
+                              .doc(FirebaseAuth.instance.currentUser!.email)
+                              .collection(userCartCollection)
+                              .doc(widget.productName + 2.toString());
+                          await cart.set(CartModel(
+                            id: cart.id,
+                            productName: widget.productName,
+                            productImage: widget.productImageList[0],
+                            productPrice: widget.productPrice,
+                            productQuantity: controller.productQuantity,
+                          ).toJson());
+                        } catch (e) {
+                          Navigator.of(context).pop();
+                          errorSnackBar(e.toString(), context);
+                        }
+                        Navigator.of(context).pop();
+
+                        // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        //     builder: ((context) => const NavigationScreen()),),);
+
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: ((context) => NavigationScreen())),(Route<dynamic> route) => false);
 
                         errorSnackBar(
                             'Product Added to cart Sucessfully', context);
@@ -374,7 +396,7 @@ class ProductFullScreenSingleImage extends StatelessWidget {
             decoration: BoxDecoration(
               color: kListTileColor,
               image: DecorationImage(
-                fit: BoxFit.fill, 
+                fit: BoxFit.fill,
                 image: NetworkImage(
                   // 'https://www.ulcdn.net/images/products/149916/slide/666x363/0.jpg?1548906914'
                   imageUrl,

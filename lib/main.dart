@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/order_sucess_screen.dart';
 import 'package:woodie/views/OnboardingPages/splash_screen.dart';
+import 'package:woodie/views/Orders/order_full_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(primaryColor: Colors.black),
-      home: const SplashScreen(),
+      home: const SplashScreen(), 
     );
   }
 }

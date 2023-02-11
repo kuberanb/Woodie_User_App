@@ -21,9 +21,9 @@ const userAddressCollection = 'userAddresss';
 
 // Orders
 
-const orderCollection = 'orderModels'; 
+const orders = 'orders'; 
 
-const userOrdersCollection = 'userOrders';
+//const userOrdersCollection = 'userOrders';
 
 // Profile Image Url
 
@@ -31,4 +31,9 @@ const imageCollection = 'profileImage';
 
 const imageList = 'imageList';
 
+// payment methods
+
+const cashOnDelivery = 'Cash On Delivery';
+
+const razorPay =  'RazorPay';
 

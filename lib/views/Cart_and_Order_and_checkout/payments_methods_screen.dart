@@ -1,12 +1,17 @@
 import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/core/constants.dart';
 import 'package:woodie/functions/MiscellaneousFunctions.dart';
 import 'package:woodie/models/address_model.dart';
 import 'package:woodie/models/cart_model.dart';
+import 'package:woodie/models/order_model.dart';
+import 'package:woodie/models/user_model.dart';
+import 'package:woodie/views/Cart_and_Order_and_checkout/order_sucess_screen.dart';
 
 class PaymentsMethodsScreen extends StatefulWidget {
   PaymentsMethodsScreen(
@@ -48,7 +53,7 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
     _razorpay!.clear();
   }
 
-  void razorPayCheckout() async{
+  void razorPayCheckout() async {
     var options = {
       'key': '<YOUR_KEY_HERE>',
       'amount': (widget.totalAmount) * 100,
@@ -67,15 +72,15 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
     }
   }
 
-   _handlePaymentSuccess(PaymentSuccessResponse response) {
+  _handlePaymentSuccess(PaymentSuccessResponse response) {
     log('Payment Sucess');
   }
 
-   _handlePaymentError() {
+  _handlePaymentError() {
     log('Payment Error');
   }
 
-   _handleExternalWallet() {
+  _handleExternalWallet() {
     log('Payment to External Wallet');
   }
 
@@ -83,6 +88,7 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final email = FirebaseAuth.instance.currentUser!.email;
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -259,13 +265,71 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
                 ),
                 const Spacer(),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     log(widget.address.city.toString());
                     if (_value == 0) {
                       razorPayCheckout();
                       log('Razor pay Selected');
                     } else if (_value == 1) {
                       log('Cash On Delivery Selected');
+                      // String orderId =
+                      //     DateTime.now().millisecondsSinceEpoch.toString();
+
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: ((context) => const Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: kWhiteColor,
+                              ),
+                            )),
+                      );
+
+                      try {
+                        for (var product in widget.cartProductsList) {
+                          String orderId =
+                              DateTime.now().millisecondsSinceEpoch.toString();
+                          await FirebaseFirestore.instance
+                              .collection(orders)
+                              .doc(orderId)
+                              .set(
+                                OrderModel(
+                                        orderId: orderId,
+                                        productName: product.productName,
+                                        imageUrl: product.productImage,
+                                        price: product.productPrice,
+                                        cartCount: product.productQuantity,
+                                        payment: cashOnDelivery,
+                                        userEmail: email!,
+                                        address: '''${widget.address.hName}   
+                                            ${widget.address.city}  
+                                            ${widget.address.state}''')
+                                    .toJson(),
+                              );
+                        }
+
+                        for (var cartItem in widget.cartProductsList) {
+                          await FirebaseFirestore.instance
+                              .collection(cartCollection)
+                              .doc(FirebaseAuth.instance.currentUser!.email)
+                              .collection(userCartCollection)
+                              .doc(cartItem.productName + 2.toString())
+                              .delete();
+                        }
+                        Navigator.of(context).pop();
+
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: ((context) => const OrderSucessScreen()),
+                            ),
+                            (Route<dynamic> route) => false);
+
+                            
+                      } catch (e) {
+                        Navigator.of(context).pop();
+                        errorSnackBar(e.toString(), context);
+                      }
                     }
                   },
                   child: Align(

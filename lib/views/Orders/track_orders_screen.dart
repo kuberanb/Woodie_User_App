@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woodie/controllers/trackOrdersController.dart';
 import 'package:woodie/core/colorPalettes.dart';
+import 'package:woodie/models/order_model.dart';
 import 'package:woodie/views/Orders/widgets/order_item_active.dart';
 import 'package:woodie/views/Orders/widgets/order_item_completed.dart';
 
 class TrackOrders extends StatelessWidget {
-  const TrackOrders({super.key});
+  const TrackOrders({super.key, required this.orderItem});
+
+  final OrderModel orderItem;
 
   @override
   Widget build(BuildContext context) {
@@ -41,38 +44,18 @@ class TrackOrders extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(
             right: 0.02 * screenWidth,
-            left: 0.02 * screenWidth,
+            left: 0.05 * screenWidth,
           ),
           child: Column(
             children: [
-              SizedBox(
-                height: 0.02 * screenHeight,
-              ),
-              const OrderItemCompleted(),
-              SizedBox(
-                height: 0.02 * screenHeight,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Order Status Details',
-                    style: TextStyle(
-                      color: kWhiteColor,
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 0.02 * screenHeight,
-              ),
               AnotherStepper(
                 activeBarColor: kWhiteColor,
 
                 stepperList: controller.orderStatusData,
                 stepperDirection: Axis.vertical,
-                activeIndex: 2,
+                activeIndex: (orderItem.deliveryProcessStage == 0)
+                    ? orderItem.deliveryProcessStage
+                    : orderItem.deliveryProcessStage - 1,
                 gap: 50,
                 // iconWidth:
                 //     40,
