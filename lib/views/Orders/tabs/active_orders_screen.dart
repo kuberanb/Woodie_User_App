@@ -46,17 +46,24 @@ class ActiveOrders extends StatelessWidget {
               //  log(item.productName);
               //  }
               return (activeOrdersList.isEmpty)
-                  ? const Center(
-                      child: Text(
-                        'No Active Orders',
-                        style: TextStyle(color: kWhiteColor, fontSize: 20),
+                  ? SizedBox(
+                      width: screenWidth,
+                      height: screenHeight,
+                      child: const Center(
+                        child: Text(
+                          'No Active Orders',
+                          style: TextStyle(
+                            color: kWhiteColor,
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
                     )
                   : ListView.separated(
                       // shrinkWrap: true,
                       // physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: ((context, index) => OrderItemActive(
-                            orderItem: snapshot.data![index],
+                            orderItem: activeOrdersList[index],
                           )),
                       separatorBuilder: ((context, index) => SizedBox(
                             height: 0.02 * screenHeight,

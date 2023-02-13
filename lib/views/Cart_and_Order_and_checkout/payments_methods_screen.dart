@@ -33,15 +33,18 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
 
   //static const platform = const MethodChannel("razorpay_flutter");
 
-  Razorpay? _razorpay;
+  // ignore: prefer_final_fields
+  Razorpay _razorpay =  Razorpay();
 
   @override
   void initState() {
-    _razorpay = Razorpay();
-    _razorpay!.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay!.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay!.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+   // _razorpay = 
 
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    });
     // TODO: implement initState
     super.initState();
   }
@@ -50,12 +53,12 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _razorpay!.clear();
+    _razorpay.clear();
   }
 
   void razorPayCheckout() async {
     var options = {
-      'key': '<YOUR_KEY_HERE>',
+      'key': '<rzp_test_hoA57QfXOzGC2S>',
       'amount': (widget.totalAmount) * 100,
       'name': widget.address.fullName,
       'description': 'Woodie Purchase',
@@ -66,7 +69,7 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
     };
 
     try {
-      _razorpay!.open(options);
+      _razorpay.open(options);
     } catch (e) {
       errorSnackBar(e.toString(), context);
     }
@@ -74,10 +77,12 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
 
   _handlePaymentSuccess(PaymentSuccessResponse response) {
     log('Payment Sucess');
+    
   }
 
   _handlePaymentError() {
     log('Payment Error');
+    errorSnackBar('Payment Failure', context);
   }
 
   _handleExternalWallet() {
@@ -324,8 +329,6 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
                               builder: ((context) => const OrderSucessScreen()),
                             ),
                             (Route<dynamic> route) => false);
-
-                            
                       } catch (e) {
                         Navigator.of(context).pop();
                         errorSnackBar(e.toString(), context);

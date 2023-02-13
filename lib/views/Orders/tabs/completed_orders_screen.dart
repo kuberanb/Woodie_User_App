@@ -39,17 +39,27 @@ class CompletedOrders extends StatelessWidget {
                 } else if (snapshot.hasData) {
                   List<OrderModel> completedOrdersList = [];
                   for (var orderItem in snapshot.data!) {
-                    if (orderItem.isCompleted == true ||
-                        orderItem.isCancelled == true &&
-                            orderItem.userEmail == email) {
+                    if ((orderItem.isCompleted == true ||
+                            orderItem.isCancelled == true) &&
+                        orderItem.userEmail == email) {
                       completedOrdersList.add(orderItem);
                       log('${orderItem.productName} in Completed Orders List');
                     }
                   }
                   return (completedOrdersList.isEmpty)
-                      ? const Center(
-                          child: Text('No Completed Orders Present'),
-                        )
+                      ?  SizedBox(
+                        height: screenHeight,
+                        width: screenWidth, 
+                        child:const Center(
+                            child: Text(
+                              'No Completed Orders Present',
+                              style: TextStyle(
+                                color: kWhiteColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                      )
                       : SizedBox(
                           height: screenHeight,
                           width: screenWidth,
