@@ -30,15 +30,16 @@ class PaymentsMethodsScreen extends StatefulWidget {
 
 class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
   int _value = 0;
+  final email = FirebaseAuth.instance.currentUser!.email;
 
   //static const platform = const MethodChannel("razorpay_flutter");
 
   // ignore: prefer_final_fields
-  Razorpay _razorpay =  Razorpay();
+  Razorpay _razorpay = Razorpay();
 
   @override
   void initState() {
-   // _razorpay = 
+    // _razorpay =
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -58,7 +59,7 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
 
   void razorPayCheckout() async {
     var options = {
-      'key': '<rzp_test_hoA57QfXOzGC2S>',
+      'key': 'rzp_test_hoA57QfXOzGC2S',
       'amount': (widget.totalAmount) * 100,
       'name': widget.address.fullName,
       'description': 'Woodie Purchase',
@@ -75,17 +76,68 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
     }
   }
 
-  _handlePaymentSuccess(PaymentSuccessResponse response) {
-    log('Payment Sucess');
-    
+  _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: ((context) => const Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: kWhiteColor,
+            ),
+          )),
+    );
+
+    try {
+      for (var product in widget.cartProductsList) {
+        String orderId = DateTime.now().millisecondsSinceEpoch.toString();
+
+        await FirebaseFirestore.instance.collection(orders).doc(orderId).set(
+              OrderModel(
+                      orderId: orderId,
+                      productName: product.productName,
+                      imageUrl: product.productImage,
+                      price: product.productPrice,
+                      cartCount: product.productQuantity,
+                      payment: razorPay,
+                      userEmail: email!,
+                      address: '''${widget.address.hName}   
+                                            ${widget.address.city}  
+                                            ${widget.address.state}''')
+                  .toJson(),
+            );
+      }
+
+      for (var cartItem in widget.cartProductsList) {
+        await FirebaseFirestore.instance
+            .collection(cartCollection)
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .collection(userCartCollection)
+            .doc(cartItem.productName + 2.toString())
+            .delete();
+      }
+      Navigator.of(context).pop();
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: ((context) => const OrderSucessScreen()),
+          ),
+          (Route<dynamic> route) => false);
+
+      errorSnackBar('Payment Sucessful', context);
+      log('Payment Sucess');
+    } catch (e) {
+      Navigator.of(context).pop();
+      errorSnackBar(e.toString(), context);
+    }
   }
 
-  _handlePaymentError() {
+  _handlePaymentError(PaymentSuccessResponse response) {
     log('Payment Error');
-    errorSnackBar('Payment Failure', context);
+    errorSnackBar('Payment Failure, Try Again', context);
   }
 
-  _handleExternalWallet() {
+  _handleExternalWallet(PaymentSuccessResponse response) {
     log('Payment to External Wallet');
   }
 
