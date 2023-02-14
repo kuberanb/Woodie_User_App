@@ -95,39 +95,40 @@ class MyCartScreen extends StatelessWidget {
               ),
 
               StreamBuilder(
-                  stream: controller.getCartProducts(),
-                  builder: ((context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        color: kWhiteColor,
-                      ));
-                    } else if (snapshot.hasData) {
-                      final cartList = snapshot.data;
-                      if (snapshot.data!.isEmpty) {
-                        return Container();
-                      } else {
-                        totalAmount = 0;
-                        for (var cart in cartList!) {
-                          final nitemprice =
-                              cart.productPrice * cart.productQuantity;
-                          totalAmount += nitemprice;
-                        }
-
-                        return BottomCheckoutWidget(
-                          carts: snapshot.data!,
-                          totalAmount: totalAmount,
-                        );
-                      }
+                stream: controller.getCartProducts(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: kWhiteColor,
+                    ));
+                  } else if (snapshot.hasData) {
+                    final cartList = snapshot.data;
+                    if (snapshot.data!.isEmpty) {
+                      return Container();
                     } else {
-                      return const Center(
-                        child: Text(
-                          'Something Went Wrong',
-                          style: TextStyle(color: kWhiteColor),
-                        ),
+                      totalAmount = 0;
+                      for (var cart in cartList!) {
+                        final nitemprice =
+                            cart.productPrice * cart.productQuantity;
+                        totalAmount += nitemprice;
+                      }
+
+                      return BottomCheckoutWidget(
+                        carts: snapshot.data!,
+                        totalAmount: totalAmount,
                       );
                     }
-                  }))
+                  } else {
+                    return const Center(
+                      child: Text(
+                        'Something Went Wrong',
+                        style: TextStyle(color: kWhiteColor),
+                      ),
+                    );
+                  }
+                }),
+              ),
             ],
           ),
         ),
@@ -200,8 +201,9 @@ class BottomCheckoutWidget extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: ((context) =>
-                               ShippingAddressScreen(totalAmount:totalAmount)),),
+                          builder: ((context) =>
+                              ShippingAddressScreen(totalAmount: totalAmount)),
+                        ),
                       );
                     },
                     child: Padding(

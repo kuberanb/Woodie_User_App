@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:woodie/controllers/Authentication/googleSignInController.dart';
 import 'package:woodie/controllers/Authentication/loginController.dart';
 import 'package:woodie/controllers/profile_screen_controller.dart';
 import 'package:woodie/core/colorPalettes.dart';
@@ -26,6 +27,7 @@ class ProfileScreen extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     final loginController = Get.put(LoginController());
     final profileController = Get.put(ProfileScreenController());
+    final googleSignInController = Get.put(GoogleSignInController());
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -254,8 +256,9 @@ class ProfileScreen extends StatelessWidget {
                 onPressFunction: () {
                   showLogoutBottonSheet(
                     context: context,
-                    logOutFunction: () {
-                      loginController.signOut(context);
+                    logOutFunction: () async {
+                      await loginController.signOut(context);
+                      await googleSignInController.googleSignIn.signOut();
                     },
                     screenHeight: screenHeight,
                     screenWidth: screenWidth,

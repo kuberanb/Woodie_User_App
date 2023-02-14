@@ -36,14 +36,14 @@ class OrderItemActive extends StatelessWidget {
         decoration: BoxDecoration(
           color: kListTileColor,
           borderRadius: BorderRadius.circular(20),
-        ),
+        ), 
         child: Padding(
           padding: EdgeInsets.only(
             right: 0.01 * screenWidth,
             left: 0.01 * screenWidth,
-            bottom: 0.02 * screenHeight,
+            bottom: 0.01 * screenHeight, 
             top: 0.02 * screenHeight,
-          ),
+          ),    
           child: Row(
             children: [
               Padding(
