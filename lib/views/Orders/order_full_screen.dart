@@ -127,6 +127,8 @@ class OrderFullScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+
               SizedBox(
                 height: 0.01 * screenHeight,
               ),
@@ -249,6 +251,9 @@ class OrderFullScreen extends StatelessWidget {
                 thickness: 1,
                 color: kLightGreyColor,
               ),
+
+
+              
             ],
           ),
         ),

@@ -99,12 +99,14 @@ class OrderItemCompleted extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            //'Lowson Chair'
-                            productName,
-                            style: const TextStyle(
-                              color: kWhiteColor,
-                              fontSize: 18,
+                          Flexible(
+                            child: Text(
+                              //'Lowson Chair'
+                              productName,
+                              style: const TextStyle(
+                                  color: kWhiteColor,
+                                  fontSize: 18,
+                                  overflow: TextOverflow.ellipsis),
                             ),
                           ),
                         ],

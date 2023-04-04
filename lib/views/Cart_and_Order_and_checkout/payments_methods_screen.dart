@@ -195,6 +195,7 @@ class _PaymentsMethodsScreenState extends State<PaymentsMethodsScreen> {
                 SizedBox(
                   height: 0.02 * screenHeight,
                 ),
+                
                 ListTile(
                   tileColor: kListTileColor,
                   shape: RoundedRectangleBorder(
